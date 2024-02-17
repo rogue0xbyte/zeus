@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Recognition Registration</title>
+</head>
+<body>
+    <h2>Facial Recognition Registration</h2>
+    <form action="/register" method="post" enctype="multipart/form-data">
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br>
+
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>

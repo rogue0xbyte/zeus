@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+{% block title %}Transaction Fraud Detection{% endblock %}
+{% block head %}
+  {{ super() }}
+  <!-- Add any additional stylesheet links here, if necessary -->
+{% endblock %}
+{% block content %}
+
+<div class="main" style="padding: 20px;">
+
+    <h3 style="text-align: center;color: grey;">Transaction Fraud Detection</h3>
+    <form method="post" style="text-align: center;margin: 0 auto; width: fit-content;">
+        <input type="hidden" name="step" value="0" required><br>
+        <input type="number" name="customer" placeholder="Customer ID" required><br><br>
+        <span>Age Category&nbsp;&nbsp;&nbsp;</span><select name="age" required>
+            <option value="1">Under 18</option>
+            <option value="2">18-25</option>
+            <option value="3">25-40</option>
+            <option value="4">Above 40</option>
+        </select><br><br>
+        <span>Gender:</span>
+        <input type="radio" name="gender" placeholder="Gender (M/F)" id="Male" value="M">
+        <label for="Male">Male</label>
+        <input type="radio" name="gender" placeholder="Gender (M/F)" id="Female" value="F">
+        <label for="Female">Female</label>
+        <br><br>
+        <input type="number" name="merchant" placeholder="Merchant ID" required><br><br>
+        <span>Transaction Category&nbsp;&nbsp;&nbsp;</span><select name="category" required>
+            <option value="es_transportation">Commute</option>
+            <option value="es_food">Food</option>
+            <option value="es_health">Health</option>
+            <option value="es_wellnessandbeauty">Wellness & Beauty</option>
+            <option value="es_fashion">Fashion</option>
+            <option value="es_groceries">Groceries</option>
+        </select><br><br>
+        <input type="number" step="0.01" name="amount" placeholder="Transaction amount" required><br><br>
+        <input type="submit" value="Predict" style="cursor: pointer; margin-top: 10px;">
+    </form>
+
+    {% if prediction %}
+        <div style="text-align: center; margin-top: 20px;color: grey;">
+            <h3>Prediction: <span style="color:{{ 'rgba(0,255,0,1)' if prediction == 'Valid Transaction' else 'rgba(255,0,0,1)' }}">{{ prediction }}</span></h3>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+{% block title %}Face DB{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='datatables/jquery.dataTables.min.css')}}"/>
+{% endblock %}
+{% block content %}
+
+<script>document.querySelector('#nav-face').classList.add('active');</script>
+
+<br/><br/>
+
+  <div class="main">
+
+    <table id="facesTable">
+      <thead>
+        <th>
+          ID
+        </th>
+        <th>
+          Person Name
+        </th>
+        <th>
+          Face
+        </th>
+        <th>
+          Registered On
+        </th>
+        <th>
+          Authentications
+        </th>
+      </thead>
+      <tbody>
+        {% for face in data %}
+        <tr>
+          <td>
+            {{face["id"]}}
+          </td>
+          <td>
+            {{face["name"]}}
+          </td>
+          <td>
+            <img src='{{face["face"]}}' width="50px"/>
+          </td>
+          <td>
+            {{face["registration"]}}
+          </td>
+          <td>
+            {{face["auths"]}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    <script src="{{url_for('static', filename='datatables/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{url_for('static', filename='datatables/jquery.dataTables.min.js')}}"></script>
+    <script>
+      let table = new DataTable('#facesTable');
+    </script>
+
+  </div>
+
+
+
+
+
+{% endblock %}

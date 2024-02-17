@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+{% block title %}Create Investigation @ SIEM{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='datatables/jquery.dataTables.min.css')}}"/>
+{% endblock %}
+{% block content %}
+
+<script>document.querySelector('#nav-siem').classList.add('active');</script>
+
+<subnav>
+  <a href="{{url_for('dashboard_siem_create')}}" class="active">Create Event</a>
+  <a href="{{url_for('dashboard_siem')}}">View Ongoing Investigations</a>
+  <a href="{{url_for('dashboard_siem_all')}}">View All Events</a>
+</subnav>
+<style type="text/css">
+  td.light-mode {
+    color:black;
+  }
+</style>
+<br/><br/>
+
+  <div class="main">
+    <div style="margin: 0 auto;border: 0.5px solid white; border-radius: 50px;padding: 50px;text-align: center;">
+      <br/>
+      <form style="text-align: center;margin: 0 auto;" method="POST">
+        <span style="display: flex;align-items: center;align-content: center;text-align: center; padding-left: 30%;">
+          <span>Source Device:</span>&nbsp;&nbsp; <input type="text" name="name"/>
+          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          <span>Event Type:</span>&nbsp;&nbsp; <select name="type"><option value="ES">Email Security</option>
+            <option value="TIIS">Threat Intelligence and Information Sharing</option>
+          <option value="BDP">Biometric Data Protection</option>
+        <option value="IAM">Identity and Access Management</option>
+      <option value="DSC">Data Security</option>
+    <option value="FDR">Fraud Detection and Reporting</option>
+  <option value="LAM">Logging and Monitoring</option>
+<option value="ENC">Data Encryption</option></select>
+        </span>
+        <br/><br/>
+        <span>Event Description:</span><br/><br/> <textarea name="desc"></textarea> <br/><br/>
+        <button>Create</button>
+      </form>
+    </div>
+
+
+  </div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <div id="camera-container" style="display: none;">
+        <video id="camera-feed" width="640" height="480" autoplay></video>
+        <button onclick="captureImage()">Capture</button>
+    </div>
+
+    <form action="/register" method="post" enctype="multipart/form-data" id="register-form" style="display: none;">
+        <label for="user_id">User ID:</label>
+        <input type="text" name="user_id" id="user_id" required>
+        <br>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+        <br>
+        <input type="hidden" name="image" id="captured-image" required>
+        <input type="submit" value="Register">
+    </form>
+    <p>Already have an account? <a href="/login">Login here</a></p>
+
+    <script>
+        let cameraStream;
+        const videoElement = document.getElementById('camera-feed');
+        const cameraContainer = document.getElementById('camera-container');
+        const registerForm = document.getElementById('register-form');
+        const userIdInput = document.getElementById('user_id');
+        const nameInput = document.getElementById('name');
+        const capturedImageInput = document.getElementById('captured-image');
+
+        function openCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    cameraStream = stream;
+                    videoElement.srcObject = stream;
+                    cameraContainer.style.display = 'block';
+                })
+                .catch(error => console.error('Error accessing camera:', error));
+        }
+
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const capturedImage = canvas.toDataURL('image/png');
+            capturedImageInput.value = capturedImage;
+
+            // Stop the camera stream
+            cameraStream.getTracks().forEach(track => track.stop());
+
+            // Extract user ID and name from the form
+            userIdInput.value = prompt('Enter User ID:');
+            nameInput.value = prompt('Enter Name:');
+
+            // Display the register form
+            cameraContainer.style.display = 'none';
+            registerForm.style.display = 'block';
+        }
+
+        function submitRegisterForm() {
+            // Add any additional logic before form submission if needed
+            registerForm.submit();
+        }
+    </script>
+
+    <button onclick="openCamera()">Open Camera</button>
+
+    {% if status %}
+        <p>Status: {{ status }}</p>
+        {% if status == "success" %}
+            <p>Registration successful!</p>
+        {% elif status == "failure" %}
+            <p>{{ message }}</p>
+        {% elif status == "error" %}
+            <p>Error: {{ message }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

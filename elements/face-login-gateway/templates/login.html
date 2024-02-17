@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <div id="camera-container" style="display: none;">
+        <video id="camera-feed" width="640" height="480" autoplay></video>
+        <button onclick="captureImage()">Capture</button>
+    </div>
+
+    <form action="/login" method="post" enctype="multipart/form-data" id="login-form" style="display: none;">
+        <input type="hidden" name="user_id" id="user_id" required>
+        <input type="hidden" name="name" id="name" required>
+        <input type="hidden" name="image" id="captured-image" required>
+        <input type="submit" value="Login">
+    </form>
+    <p>Don't have an account? <a href="/register">Register here</a></p>
+
+    <script>
+        let cameraStream;
+        const videoElement = document.getElementById('camera-feed');
+        const cameraContainer = document.getElementById('camera-container');
+        const loginForm = document.getElementById('login-form');
+        const userIdInput = document.getElementById('user_id');
+        const nameInput = document.getElementById('name');
+        const capturedImageInput = document.getElementById('captured-image');
+
+        function openCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    cameraStream = stream;
+                    videoElement.srcObject = stream;
+                    cameraContainer.style.display = 'block';
+                })
+                .catch(error => console.error('Error accessing camera:', error));
+        }
+
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const capturedImage = canvas.toDataURL('image/png');
+            capturedImageInput.value = capturedImage;
+
+            // Stop the camera stream
+            cameraStream.getTracks().forEach(track => track.stop());
+
+            // Extract user ID and name from the form
+            userIdInput.value = prompt('Enter User ID:');
+            nameInput.value = prompt('Enter Name:');
+
+            // Display the login form
+            cameraContainer.style.display = 'none';
+            loginForm.style.display = 'block';
+        }
+
+        function submitLoginForm() {
+            // Add any additional logic before form submission if needed
+            loginForm.submit();
+        }
+    </script>
+
+    <button onclick="openCamera()">Open Camera</button>
+
+    {% if status %}
+        <p>Status: {{ status }}</p>
+        {% if status == "success" %}
+            <p>User ID: {{ user_id }}</p>
+            <p>Name: {{ name }}</p>
+        {% elif status == "failure" %}
+            <p>{{ message }}</p>
+        {% elif status == "error" %}
+            <p>Error: {{ message }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

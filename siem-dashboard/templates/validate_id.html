@@ -1,0 +1,72 @@
+{% extends "index.html" %}
+{% block title %}Face DB{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='datatables/jquery.dataTables.min.css')}}"/>
+  <style>
+    .upload-btn {
+      border: 3px solid cyan;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .wedged-box {
+      border: 1px solid #ddd;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+
+    .validation-message {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .valid {
+      color: green;
+    }
+
+    .invalid {
+      color: red;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+
+<script>document.querySelector('#nav-id').classList.add('active');</script>
+
+<br/><br/>
+
+  <div class="main">
+    <form action="{{ url_for('validate_id') }}" method="post" enctype="multipart/form-data" style="text-align: center;margin: 0 auto;">
+        <input type="file" name="id_card">
+        <input type="submit" value="Upload" class="upload-btn">
+    </form>
+      <br/><br>
+      <div class="wedged-box">
+        <pre style="text-align: center;margin: 0 auto;">
+          <h3>Upload Aadhar Card for Validation</h3>
+          {% if valid is not none %}
+            {% if valid %}
+              <div class="validation-message valid">Card Valid</div>
+              <h4>Extracted Details:</h4>
+              <p>Aadhar No: {{ details[0] }}</p>
+              <p>Gender: {{ details[1] }}</p>
+              <p>DOB: {{ details[2] }}</p>
+              <p>Name: {{ details[3] }}</p>
+            {% else %}
+              <div class="validation-message invalid">Card Invalid</div>
+            {% endif %}
+          {% endif %}
+        </pre>
+      </div>
+
+  </div>
+
+{% endblock %}

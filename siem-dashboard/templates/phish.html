@@ -1,0 +1,33 @@
+{% extends "index.html" %}  <!-- Assuming "index.html" is your base layout file -->
+{% block title %}Phishing Email Detection{% endblock %}
+{% block head %}
+  {{ super() }}
+  <!-- Add any additional stylesheet links here, if necessary -->
+{% endblock %}
+{% block content %}
+
+<script>document.querySelector('#nav-mail').classList.add('active');</script> <!-- Adjust or remove if not applicable -->
+
+<div class="main" style="padding: 20px;">
+
+    <h3 style="text-align: center;color: grey;">Phishing Email Detection</h3>
+    <form method="post" style="text-align: center;margin: 0 auto; width: fit-content;">
+        <textarea name="emailText" rows="10" cols="50" placeholder="Enter email text here..." style="margin-bottom: 10px;"></textarea><br>
+        <input type="submit" value="Detect" style="cursor: pointer;">
+    </form>
+
+    {% if prediction_rf %}
+        <div style="text-align: center; margin-top: 20px;color: grey;">
+            <h3>Random Forest Prediction: <span style="color:{{ 'rgba(0,255,0,1)' if prediction_rf == 'Safe Email' else 'rgba(255,0,0,1)' }}">{{ prediction_rf }}</span></h3>
+        </div>
+    {% endif %}
+    {% if prediction_svm %}
+        <div style="text-align: center; margin-top: 20px; color: grey;">
+            <h3>SVM Prediction: <span style="color:{{ 'rgba(0,255,0,1)' if prediction_svm == 'Safe Email' else 'rgba(255,0,0,1)' }}">{{ prediction_svm }}</span></h3>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+

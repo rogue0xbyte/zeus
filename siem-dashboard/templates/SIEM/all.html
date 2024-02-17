@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+{% block title %}All Investigations @ SIEM{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='datatables/jquery.dataTables.min.css')}}"/>
+{% endblock %}
+{% block content %}
+
+<script>document.querySelector('#nav-siem').classList.add('active');</script>
+
+<style type="text/css">
+  td.light-mode {
+    color:black;
+  }
+</style>
+
+<subnav>
+  <a href="{{url_for('dashboard_siem_create')}}">Create Event</a>
+  <a href="{{url_for('dashboard_siem')}}">View Ongoing Investigations</a>
+  <a href="{{url_for('dashboard_siem_all')}}" class="active">View All Events</a>
+</subnav>
+
+<br/><br/>
+
+  <div class="main">
+
+    <table id="eventsTable">
+      <thead>
+        <th>
+          ID
+        </th>
+        <th>
+          Type
+        </th>
+        <th>
+          Timestamp
+        </th>
+        <th>
+          Source Device
+        </th>
+        <th>
+          Resolution Status
+        </th>
+        <th>
+          View
+        </th>
+      </thead>
+      <tbody>
+        {% for event in data %}
+        <tr>
+          <td>
+            {{event["id"]}}
+          </td>
+          <td>
+            {{event["event_type"]}}
+          </td>
+          <td>
+            {{event["timestamp"]}}
+          </td>
+          <td>
+            {{event["source_device"]}}
+          </td>
+          <td>
+            {% if event["resolved"] %}Resolved{% else %}Unresolved{% endif %}
+          </td>
+          <td>
+            <a href="{{url_for('event_view', id=event['id'])}}">View</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    <script src="{{url_for('static', filename='datatables/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{url_for('static', filename='datatables/jquery.dataTables.min.js')}}"></script>
+    <script>
+      let table = new DataTable('#eventsTable');
+    </script>
+
+  </div>
+
+
+
+
+
+{% endblock %}

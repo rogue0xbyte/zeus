@@ -1,0 +1,110 @@
+body.light-mode {
+  background-color: #f3f3f3;
+  font-family: sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+header.light-mode {
+  border-bottom: 0.1em #dcdcdc solid;
+  width:100%!important;
+  padding-top: 7px;
+  padding-bottom: 10px;
+  display:flex;
+}
+
+subnav.light-mode {
+  border-bottom: 0.1em #dcdcdc solid;
+  width:99%!important;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a.light-mode {
+  text-decoration: none;
+  color: #656565;
+  padding: 10px;
+  transition: background-color 0.2s ease;
+  font-family: 'Space Grotesk', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+a.active.light-mode {
+  color: black;
+}
+
+.card-title.light-mode {
+  color: white;
+}
+
+.card-desc.light-mode {
+  color: white;
+}
+
+a.light-mode:hover:not(.active), button {
+  background-color: #c4c4c4;
+}
+
+/* Tooltip text */
+.tooltip.light-mode .tooltiptext.light-mode {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #000000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+label.light-mode {
+  color:#0a0a0a;
+}
+
+tr.light-mode, form.light-mode, button.light-mode {
+  font-family: 'Space Grotesk', sans-serif;
+  color: black;  
+}
+
+td.light-mode, .dataTables_info.light-mode, input[type="search"].light-mode, #eventsTable_info.light-mode, .paginate_button.light-mode, a[role="link"].light-mode{
+  color: white;
+}
+
+input[type="file"].light-mode, .colorChanger.light-mode {
+  color: black!important;
+}
+
+pre.light-mode {
+  color: black;
+}
+
+.card.light-mode {
+  border: rgba(255, 255, 255, 0.9) 3px solid;
+  padding: 50px;
+  color: black; /* Changing text color to ensure visibility */
+  border-radius: 50px;
+
+  box-shadow: 0 14px 28px rgba(255,255,255,0.25), 0 10px 10px rgba(255,255,255,0.22);
+  background-color: rgba(255,255,255,0.2);
+  
+  filter: invert(100%);
+}
+
+.card.light-mode {
+  
+}
+
+form.light-mode {
+  color:black;
+}
+
+form.light-mode input, form.light-mode select, form.light-mode textarea {
+  color:black;
+}

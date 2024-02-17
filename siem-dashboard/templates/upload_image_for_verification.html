@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+{% block title %}Face DB{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='datatables/jquery.dataTables.min.css')}}"/>
+  <style>
+    .upload-btn {
+      border: 3px solid cyan;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .wedged-box {
+      border: 1px solid #ddd;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+
+    .validation-message {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .valid {
+      color: green;
+    }
+
+    .invalid {
+      color: red;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+<script>document.querySelector('#nav-photo').classList.add('active');</script>
+
+<br/><br/>
+
+  <div class="main">
+    <!-- Modify the form for uploading images -->
+    <form action="{{ url_for('validate_photo') }}" method="post" enctype="multipart/form-data" style="text-align: center;margin: 0 auto;">
+        <input type="file" name="image_file"><!-- Change the input name to 'image_file' -->
+        <input type="submit" value="Upload" class="upload-btn">
+    </form>
+      <br/><br>
+      <div class="wedged-box">
+        <pre style="text-align: center;margin: 0 auto;">
+          <h3>Image Verification Result</h3>
+          <!-- Display the verification result -->
+          {% if verification_result %}
+            {% if verification_result.verdict == 'real' %}
+              <div class="validation-message valid">Real Image</div>
+            {% elif verification_result.verdict == 'fake' %}
+              <div class="validation-message invalid">Fake Image</div>
+            {% endif %}
+            <p>Probability: {{ verification_result.probability }}%</p>
+          {% endif %}
+        </pre>
+      </div>
+
+  </div>
+
+{% endblock %}

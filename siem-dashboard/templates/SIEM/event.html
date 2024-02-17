@@ -1,0 +1,158 @@
+{% extends "index.html" %}
+{% block title %}{{event["event_type"]}} Offense ID {{event["id"]}}{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{url_for('static', filename='datatables/jquery.dataTables.min.css')}}"/>
+      <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.min.css')}}">
+      <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+  <style type="text/css">
+         .technique-cell {
+            padding: 15px;
+         }
+         .matrix-scroll-box, .matrix-container, .technique-cell {
+            background-color: rgba(0,0,0,0)!important;
+         }
+         .tactic:hover {
+            background-color: rgba(255, 255, 255, 0.1)!important;
+         }
+      </style>
+{% endblock %}
+{% block content %}
+<script>document.querySelector('#nav-frameworks').classList.add('active');</script>
+  <div class="main">
+<br/>
+<style type="text/css">
+  td.light-mode {
+    color:black;
+  }
+</style>
+  <div class="main">
+
+    <p class="colorChanger"><span onclick="history.back();" style="cursor: pointer;">Investigations</span> / ID {{event["id"]}}</p>
+    <h1 class="colorChanger">{{event["event_type"]}} Offense ID {{event["id"]}}</h1>
+    <p class="colorChanger">ID: {{event["id"]}} | Type: {{event["event_type"]}}</p>
+    <div style="background-color: rgba(255,255,255,0.1);min-height: 50px;padding:25px;font-family: 'Space Grotesk', sans-serif;">
+      <table style="width:100%">
+        <tr>
+          <td><span>Offense Type</span><br/>
+          {{event["event_type"]}}</td>
+          <td><span>Offense Source</span><br/>
+          {{event["source_device"]}}</td>
+          <td><span>Status</span><br/>
+          {% if event["resolved"] %}Open{% else %}Closed{% endif %}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><span>Start</span><br/>
+          {{event["timestamp"]}}</td>
+          <td><span>Duration</span><br/>
+          {{event["days"]}} days</td>
+          <td><span>Incidents</span><br/>
+          {{event["incidents"] | length}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>{% if event["resolved"] %}<span style="color:green;">Resolved at</span>{% endif %}</td>
+          <td>{% if not event["resolved"] %}<a href="{{url_for('dashboard_siem_resolve', id=event['id'])}}">Resolve</a>{% else %}{{event["resolution_timestamp"]}}{% endif %}</td>
+        </tr>
+      </table>
+    <br/><br/>
+      <table style="width:100%;">
+        <tr>          
+          <td valign="top">
+            <h3>Description</h3>
+            <p>{{event["description"]}}</p>
+            <br/>
+            <h3>Comments ({{event["comments"] | length}})</h3>
+<div style="max-width:30em!important;overflow-y: scroll;overflow-wrap: break-word;max-height: 10em;">
+{% for comment in event["comments"] %}
+              ({{comment["user_id"]}}) {{comment["comment"]}}<br/>
+            {% endfor %} </div>
+            <br/><br/>
+            <form method="POST">
+            <textarea style="width: 75%;height: initial;margin-left: 15px;" name="desc"></textarea>
+            <br/><br/>
+            <button style="margin-left: 15px;" class="colorChanger">Add Comment</button> 
+              </form>
+          </td>
+        </tr>      
+      </table>
+    </div>
+
+    <script src="{{url_for('static', filename='datatables/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{url_for('static', filename='datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{url_for('static', filename='datatables/dataTables.responsive.min.js')}}"></script>
+
+    <script src="{{url_for('static', filename='chart.js')}}"></script>
+
+    <script>
+              // Incident data
+              var incidentData = {{event["incidents"] | safe}};
+
+              // Extract timestamps and incident counts from incidentData
+var incidentLabels = incidentData.map(item => item.timestamp);
+var incidentCounts = incidentData.map(item => 1); // Count each incident as 1
+
+// Create a bar chart with lines and dots
+var incidentsCtx = document.getElementById('incidentsChart').getContext('2d');
+var incidentsChart = new Chart(incidentsCtx, {
+    type: 'line',
+    data: {
+        labels: incidentLabels,
+        datasets: [{
+            label: '# of Incidents',
+            data: incidentCounts,
+            backgroundColor: 'rgba(75, 192, 192, 0)', // Transparent background
+            borderColor: 'rgba(75, 192, 192, 0.7)', // Line color
+            pointBackgroundColor: 'rgba(75, 192, 192, 1)', // Dot color
+            pointRadius: 5 // Dot radius
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'category', // Use category scale for simplicity
+                title: {
+                    display: true,
+                    text: 'Time'
+                }
+            },
+            y: {
+                type: 'linear',
+                position: 'left',
+                title: {
+                    display: true,
+                    text: '# of Incidents'
+                }
+            }
+        }
+    }
+});
+          </script>
+
+    <script>
+            jQuery('#eventTable').dataTable({  
+              bAutoWidth: false,
+              responsive: true,
+               columnDefs: [
+            { width: 5, targets: 0 }
+        ],
+      });
+    </script>
+
+  </div>
+
+
+
+
+
+{% endblock %}
