@@ -11,7 +11,10 @@
 <div class="main" style="padding: 20px;">
 
     <h3 style="text-align: center;color: grey;">Phishing Email Detection</h3>
-    <form method="post" style="text-align: center;margin: 0 auto; width: fit-content;">
+    <form method="post" style="text-align: center;margin: 0 auto; width: fit-content;" enctype="multipart/form-data">
+        <span>Upload .eml file:&nbsp;&nbsp;</span><input type="file" name="file" placeholder="Upload .eml file" accept=".eml" /><br/><br/>
+        -- OR --
+        <br/><br/>
         <textarea name="emailText" rows="10" cols="50" placeholder="Enter email text here..." style="margin-bottom: 10px;"></textarea><br>
         <input type="submit" value="Detect" style="cursor: pointer;">
     </form>

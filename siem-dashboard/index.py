@@ -11,6 +11,8 @@ sys.path.append(f"{os.path.dirname(os.getcwd())}/elements/src")
 import pandas as pd
 import joblib
 import datetime, json
+import email
+from io import BytesIO
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
@@ -216,8 +218,8 @@ def validate_photo():
 
 def load_models():
     # Load the saved models from disk
-    rf_classifier = joblib.load('rf_classifier.joblib')
-    svm_classifier = joblib.load('svm_classifier.joblib')
+    rf_classifier = joblib.load('models/email_phish/rf_classifier.joblib')
+    svm_classifier = joblib.load('models/email_phish/svm_classifier.joblib')
     return rf_classifier, svm_classifier
 
 def predict_email(email_text, rf_classifier, svm_classifier):
@@ -229,7 +231,33 @@ def predict_email(email_text, rf_classifier, svm_classifier):
 @app.route('/phish/mail', methods=['GET', 'POST'])
 def phish_mail():
     if request.method == 'POST':
-        email_text = request.form['emailText']
+        try:
+            email_text = request.form['emailText'].strip()
+            if email_text == '':
+                print(yamborghini)
+            src = "txt"
+        except:
+            # try:
+            email_text = email.message_from_binary_file(BytesIO(request.files['file'].read()))
+            body = ""
+
+            if email_text.is_multipart():
+                for part in email_text.walk():
+                    ctype = part.get_content_type()
+                    cdispo = str(part.get('Content-Disposition'))
+
+                    # skip any text/plain (txt) attachments
+                    if ctype == 'text/plain' and 'attachment' not in cdispo:
+                        body = part.get_payload(decode=True)  # decode
+                        break
+            # not multipart - i.e. plain text, no attachments, keeping fingers crossed
+            else:
+                body = email_text.get_payload(decode=True)
+            email_text = body.decode()
+            src = "file"
+            # except Exception as e:
+            #     return str(e)
+            #     return redirect(url_for("phish_mail"))
         rf_classifier, svm_classifier = load_models()
         prediction_rf, prediction_svm = predict_email(email_text, rf_classifier, svm_classifier)
         return render_template('phish.html', prediction_rf=prediction_rf, prediction_svm=prediction_svm)
