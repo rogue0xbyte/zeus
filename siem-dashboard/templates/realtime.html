@@ -1,0 +1,32 @@
+{% extends "index.html" %}  <!-- Assuming "index.html" is your base layout file -->
+{% block title %}Anti Spoofing{% endblock %}
+{% block head %}
+  {{ super() }}
+  <!-- Add any additional stylesheet links here, if necessary -->
+{% endblock %}
+{% block content %}
+<script>document.querySelector('#nav-mail').classList.add('active');</script> <!-- Adjust or remove if not applicable -->
+
+<div class="main" style="padding: 20px;">
+  
+  <form method="post" action="{{ url_for('real') }}" style="text-align: center;margin: 0 auto; width: fit-content;">
+      <textarea name="emailText" rows="10" cols="50" placeholder="Enter email text here..." style="margin-bottom: 10px;"></textarea><br>
+      <input type="submit" value="Detect" style="cursor: pointer;">
+  </form>
+
+  <img id="live-feed" src="{{ url_for('real') }}" alt="Camera Feed">
+
+  {% if result %}
+      <h2 style="text-align: center;color: grey;">Result:</h2>
+      <p style="text-align: center;color: grey;">{{ result }}</p>
+  {% endif %}
+
+  <script>
+      // JavaScript to update the live feed image
+      const liveFeed = document.getElementById('live-feed');
+      setInterval(() => {
+          liveFeed.src = `${liveFeed.src.split('?')[0]}?${new Date().getTime()}`;
+      }, 1000);  // Update every second
+  </script>
+</div>
+{% endblock %}
