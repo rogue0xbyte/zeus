@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Console</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header img {
+            height: 100px;
+            border-radius: 10%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px #d9d9d9, 
+                        -20px -20px 60px #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #addApplicationBtn {
+            float: right;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 10px 10px 30px #d9d9d9, 
+                        -10px -10px 30px #ffffff;
+            margin-bottom: 15px;
+        }
+
+        #addApplicationBtn:hover {
+            box-shadow: inset 5px 5px 10px #d9d9d9, 
+                        inset -5px -5px 10px #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group input[type="submit"] {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 10px 10px 30px #d9d9d9, 
+                        -10px -10px 30px #ffffff;
+            transition: box-shadow 0.3s ease;
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+
+        .form-group input[type="submit"] {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            box-shadow: inset 5px 5px 10px #d9d9d9, 
+                        inset -5px -5px 10px #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://i.imgur.com/jCfPXPe.png" alt="Logo">
+            <h1>Developer Console</h1>
+        </header>
+
+        <div class="card">
+            <a href="{{url_for('create_application')}}"><button id="addApplicationBtn">Add Application</button></a>
+            <table id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>API Key</th>
+                        <th>Callback URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            var table = $('#applicationsTable').DataTable();
+
+            // Sample data (replace with your actual data)
+            var data = {{data | safe}};
+
+            // Populate table with data
+            data.forEach(function(app) {
+                table.row.add([
+                    app.name,
+                    app.id,
+                    app.api_key,
+                    app.callback
+                ]).draw();
+            });
+        });
+    </script>
+</body>
+</html>

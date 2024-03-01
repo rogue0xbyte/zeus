@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log-In with Zeus</title>
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header img {
+            height: 100px;
+            border-radius: 10%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px #d9d9d9, 
+                        -20px -20px 60px #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #addApplicationBtn {
+            float: right;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 10px 10px 30px #d9d9d9, 
+                        -10px -10px 30px #ffffff;
+            margin-bottom: 15px;
+        }
+
+        #addApplicationBtn:hover {
+            box-shadow: inset 5px 5px 10px #d9d9d9, 
+                        inset -5px -5px 10px #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="url"] {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 10px 10px 30px #d9d9d9, 
+                        -10px -10px 30px #ffffff;
+            transition: box-shadow 0.3s ease;
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input[type="submit"] {
+            width: auto;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 20px;
+            padding: 10px 20px;
+            box-shadow: 10px 10px 30px #d9d9d9, 
+                        -10px -10px 30px #ffffff;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-group input[type="submit"]:hover {
+            box-shadow: inset 5px 5px 10px #d9d9d9, 
+                        inset -5px -5px 10px #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://i.imgur.com/jCfPXPe.png" alt="Logo">
+            <h1>Log-In with Zeus</h1>
+        </header>
+
+        <div class="card">
+            <form id="applicationForm" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="photo">Capture Image:</label>
+                    <input type="file" id="photo" name="photo">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Log-In">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
