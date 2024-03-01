@@ -1,0 +1,186 @@
+Delivered-To: 21z201@psgtech.ac.in
+Received: by 2002:a17:906:6443:b0:a3e:de9e:fad7 with SMTP id l3csp980629ejn;
+        Fri, 1 Mar 2024 01:27:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH4CnHZinsAKtFZrbeZ7wJMugLEQpFYs36OtAoT56l9hNerDF/qfIgs9iuajoASRFQNcDRh
+X-Received: by 2002:a9d:7dd9:0:b0:6e4:9489:1857 with SMTP id k25-20020a9d7dd9000000b006e494891857mr1242412otn.25.1709285238105;
+        Fri, 01 Mar 2024 01:27:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709285238; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=DjMqY3l33xIAGlLpvM7HG2mK2jtNlCbKN0wEOGf86kIhG7lOaBuKyhXRSrw8XC8oIR
+         7Lgmz1IxZCCP8vQlBh2BocZSML4HL469o9tfCYgEInlCTTcLooxM+kCxE+Xt+r5vk3Do
+         H89VqlYv2CCPL03F2br5KOzlFYlZqFbFpBoSh8Pdf4FpS3x2OWWgvrATIuCGFj9+5kLY
+         FWKz+755xfOtpDZ0I61Lp3+D0Xg3/TDhG+HNaO4DQkCufWhL+ctDvOYq2ZAzS/zRllNj
+         3q4cNI3I8Ot1j9oO6FGm9W1DgA6flo6PzvPXZR7GVTlbPr1BBYYF6vrtdm4biqGfQ2Dl
+         hQiw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=user-agent:importance:mime-version:subject:message-id:to:from:date
+         :dkim-signature;
+        bh=KEjhUxCGkJpCxnfNPLYPp2pnVNUb4/huKvK1oK/Cqzo=;
+        fh=OhuYERtS5D5sWdFdM19kE00eCaJz8IvkeCllMrNOMYE=;
+        b=xczwt561BqRuV54aI40XhyaQz0PM8QcXgqgQfQqkpOFTMSrPd6mwTq9ooyn7In995S
+         XZaNfQdemjcxcmfHXHvaKyRPmmT5JLujq9DjmDn4rdbKaY+gN03yzce/GYgP7ECEXsL/
+         8mk80go57Eal/Au0ESHmuXgnSijJwwirSGNbltlNNXSoCz7R2vYe/KfaFWi83kn5dmW2
+         KG2y/CddBt5/oE0+2AU+SAWurZFIjmQDy2vMMlU7+Jek8H318tdbdekOlM3UWIweCa+b
+         0rkZdxE03DFZrjDvs7svx2kmeRL4emLGqfruauTOVeTpmGwjL4czDCGcLvTCt2WBq7YL
+         hHYA==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@intellx.in header.s=zmail header.b=GuioS8EV;
+       arc=pass (i=1 spf=pass spfdomain=intellx.in dkim=pass dkdomain=intellx.in dmarc=pass fromdomain=intellx.in>);
+       spf=pass (google.com: domain of 21z201@intellx.in designates 136.143.188.54 as permitted sender) smtp.mailfrom=21z201@intellx.in
+Return-Path: <21z201@intellx.in>
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com. [136.143.188.54])
+        by mx.google.com with ESMTPS id k64-20020a638443000000b005dc7fe1218dsi3238556pgd.284.2024.03.01.01.27.17
+        for <21z201@psgtech.ac.in>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Mar 2024 01:27:17 -0800 (PST)
+Received-SPF: pass (google.com: domain of 21z201@intellx.in designates 136.143.188.54 as permitted sender) client-ip=136.143.188.54;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@intellx.in header.s=zmail header.b=GuioS8EV;
+       arc=pass (i=1 spf=pass spfdomain=intellx.in dkim=pass dkdomain=intellx.in dmarc=pass fromdomain=intellx.in>);
+       spf=pass (google.com: domain of 21z201@intellx.in designates 136.143.188.54 as permitted sender) smtp.mailfrom=21z201@intellx.in
+ARC-Seal: i=1; a=rsa-sha256; t=1709285235; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=DV9qsWbqj2aaLLXF7LQ6s+qxNt6Tze1lKzwDlUr7s1ctrY9oA/ISH4EK/wlD0nR1Nj9q/KS3WYhrW3f79Cp9vOmGBI+OQKOsQGWi4EkzjTF1zTrsTAr7B58dgpeimUG3nt76DrhJH11JUGd/ESUdg5Y99It36vQnb3LzsadbXco=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1709285235; h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=KEjhUxCGkJpCxnfNPLYPp2pnVNUb4/huKvK1oK/Cqzo=; 
+	b=iEl71Hl2RM2Sx2l+VN8odEdy7Nl08gXmZRvp7Wf71NtLUcs+ZPmvnI6S4hFEbH95p7c9O/rrP4VgrXOor+30EHD9pWLdqCYnOKbngGgVoUxNLY4bEkzB1Dw3HaGx60qJcKeImuhWgVmlgRBBsnRaz4/sqETQ0Kz4Ey+LFLa07go=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=intellx.in;
+	spf=pass  smtp.mailfrom=21z201@intellx.in;
+	dmarc=pass header.from=<21z201@intellx.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1709285235;
+	s=zmail; d=intellx.in; i=21z201@intellx.in;
+	h=Date:Date:From:From:To:To:Message-Id:Message-Id:Subject:Subject:MIME-Version:Content-Type:Reply-To:Cc;
+	bh=KEjhUxCGkJpCxnfNPLYPp2pnVNUb4/huKvK1oK/Cqzo=;
+	b=GuioS8EVYordX/MQhYj6+59vhafdo1ejSzX/3uBdxN1W1fi3BSebur8Zq7Lgy36g
+	Gsf2d/05F8RkYdchzds5M7PLvRlvRRXUJS75tRN3KWvnmhRDX92Gwy3G4GiVjudr6yd
+	5Vl9RGAkw23jWPSuQAhoipjNUvW/ysRDMz8pnetw=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1709285233825984.0112067441688; Fri, 1 Mar 2024 01:27:13 -0800 (PST)
+Date: Fri, 01 Mar 2024 14:57:13 +0530
+From: 21Z201 - AADIL ARSH S R <21z201@intellx.in>
+To: "21z201" <21z201@psgtech.ac.in>
+Message-Id: <18df956d40d.117060ef2148362.7144134865392666898@intellx.in>
+Subject: Got you covered ;)
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_475072_1671800696.1709285233677"
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+
+------=_Part_475072_1671800696.1709285233677
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+Hi, today there are sadly some bad news for you.
+
+
+
+Your device was infected with my private malware, your browser wasn't updated / patched, in such case it's enough to just visit some website where my iframe is placed to get automatically infected, if you want to find out more, Google: Drive-by exploit.
+
+
+
+My malware gave me full access to all your accounts, full control over your device and it also was possible to spy on you over your cam.
+
+
+
+If you think this is some bad joke, no, for example I know your phone number: 555-XXX-5555 (changed to 5s so I dont post my number on reddit lmao)
+
+
+
+I collected all your private data and I RECORDED YOU (through your cam) SATISFYING YOURSELF!
+
+
+
+After that I removed my malware to not leave any traces and this email was sent from some hacked server.
+
+
+
+I can publish the video of you and all your private data on the whole web, social networks, over email and send everything to all your contacts.
+
+
+
+But you can stop me and only I can help you out in this situation.
+
+
+
+The only way to stop me, is to pay exactly 750$ in Bitcoin (BTC).
+
+
+
+It's a very good offer, compared to all that horrible shit that will happen if I publish everything.
+
+
+
+You can easily buy Bitcoin (BTC) here: http://www.paxful.com , http://www.coingate.com , http://www.coinbase.com , or check for Bitcoin (BTC) ATM near you, or Google for other exchanger.
+
+
+
+You can send the Bitcoin (BTC) directly to my wallet, or install the free software: Atomicwallet, or: Exodus wallet, then receive and send to mine.
+
+
+
+My Bitcoin (BTC) wallet is: 1DkKm1sWz6yEHiqjEusuA23BKqk4gDTVbK
+
+
+
+Yes, that's how the wallet / address looks like, copy and paste it, it's (cAsE-sEnSEtiVE).
+
+
+
+I give you 3 days time to pay.
+
+
+
+After receiving the payment, I will remove everything and you can life your live in peace like before, don't worry, I keep my promise.
+
+
+
+Next time make sure that your device got the newsest security updates.
+------=_Part_475072_1671800696.1709285233677
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>=
+<meta content=3D"text/html;charset=3DUTF-8" http-equiv=3D"Content-Type"></h=
+ead><body ><div style=3D"font-family: Verdana, Arial, Helvetica, sans-serif=
+; font-size: 10pt;"><div>Hi, today there are sadly some bad news for you.<b=
+r></div><div><br></div><div>Your device was infected with my private malwar=
+e, your browser wasn't updated / patched, in such case it's enough to just =
+visit some website where my iframe is placed to get automatically infected,=
+ if you want to find out more, Google: Drive-by exploit.<br></div><div><br>=
+</div><div>My malware gave me full access to all your accounts, full contro=
+l over your device and it also was possible to spy on you over your cam.<br=
+></div><div><br></div><div>If you think this is some bad joke, no, for exam=
+ple I know your phone number: 555-XXX-5555 (changed to 5s so I dont post my=
+ number on reddit lmao)<br></div><div><br></div><div>I collected all your p=
+rivate data and I RECORDED YOU (through your cam) SATISFYING YOURSELF!<br><=
+/div><div><br></div><div>After that I removed my malware to not leave any t=
+races and this email was sent from some hacked server.<br></div><div><br></=
+div><div>I can publish the video of you and all your private data on the wh=
+ole web, social networks, over email and send everything to all your contac=
+ts.<br></div><div><br></div><div>But you can stop me and only I can help yo=
+u out in this situation.<br></div><div><br></div><div>The only way to stop =
+me, is to pay exactly 750$ in Bitcoin (BTC).<br></div><div><br></div><div>I=
+t's a very good offer, compared to all that horrible shit that will happen =
+if I publish everything.<br></div><div><br></div><div>You can easily buy Bi=
+tcoin (BTC) here: <a target=3D"_blank" href=3D"http://www.paxful.com">www.p=
+axful.com</a> , <a target=3D"_blank" href=3D"http://www.coingate.com">www.c=
+oingate.com</a> , <a target=3D"_blank" href=3D"http://www.coinbase.com">www=
+.coinbase.com</a> , or check for Bitcoin (BTC) ATM near you, or Google for =
+other exchanger.<br></div><div><br></div><div>You can send the Bitcoin (BTC=
+) directly to my wallet, or install the free software: Atomicwallet, or: Ex=
+odus wallet, then receive and send to mine.<br></div><div><br></div><div>My=
+ Bitcoin (BTC) wallet is: 1DkKm1sWz6yEHiqjEusuA23BKqk4gDTVbK<br></div><div>=
+<br></div><div>Yes, that's how the wallet / address looks like, copy and pa=
+ste it, it's (cAsE-sEnSEtiVE).<br></div><div><br></div><div>I give you 3 da=
+ys time to pay.<br></div><div><br></div><div>After receiving the payment, I=
+ will remove everything and you can life your live in peace like before, do=
+n't worry, I keep my promise.<br></div><div><br></div><div>Next time make s=
+ure that your device got the newsest security updates.<br></div></div><br><=
+/body></html>
+------=_Part_475072_1671800696.1709285233677--
+
