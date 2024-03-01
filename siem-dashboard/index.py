@@ -297,6 +297,7 @@ def real():
     import torch
     from torchvision import transforms
     from Model import DeePixBiS
+    from flask import Response
 
     model = DeePixBiS()
     model.load_state_dict(torch.load('./DeePixBiS.pth'))
@@ -311,11 +312,15 @@ def real():
 
     faceClassifier = cv.CascadeClassifier('Classifiers/haarface.xml')
 
-    camera = cv.VideoCapture(0)
-
-    result = []
+    # IP camera credentials
+    username = 'aadil'
+    password = '12345'
+    ip_address = '192.168.1.4'
+    port = '5555'
+    video_path = f"http://{username}:{password}@{ip_address}:{port}/video"
 
     def generate_frames():
+        camera = cv.VideoCapture(video_path)
         while True:
             _, img = camera.read()
             grey = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -345,7 +350,6 @@ def real():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
 
 @app.route('/real_page', methods=['GET', 'POST'])
 def real_page():
