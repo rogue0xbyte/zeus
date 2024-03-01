@@ -26,7 +26,8 @@ def verify_image_with_model(image_path):
         num_classes=2
     ).to(device)
     model = model.eval()
-    model.load_state_dict(torch.load(r"C:\Users\sraad\Downloads\zeus\elements\input\model.pth")['model_state_dict'])  # Provide the path to your model here
+    print(os.getcwd())
+    model.load_state_dict(torch.load("../elements/input/model.pth")['model_state_dict'])  # Provide the path to your model here
 
     # Define the transforms, resize => tensor => normalize.
     transform = transforms.Compose([
