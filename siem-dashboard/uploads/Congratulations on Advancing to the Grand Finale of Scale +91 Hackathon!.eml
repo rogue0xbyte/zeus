@@ -1,0 +1,525 @@
+Delivered-To: 21z201@psgtech.ac.in
+Received: by 2002:a17:906:6443:b0:a3e:de9e:fad7 with SMTP id l3csp366794ejn;
+        Thu, 29 Feb 2024 03:01:15 -0800 (PST)
+X-Received: by 2002:a05:6830:1d63:b0:6e4:8c2c:16d1 with SMTP id l3-20020a0568301d6300b006e48c2c16d1mr1454474oti.28.1709204475411;
+        Thu, 29 Feb 2024 03:01:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709204475; cv=none;
+        d=google.com; s=arc-20160816;
+        b=R/wWhL9oH3ogcUPvDRLRmoAmIDD4/rK4ij1PJ4bWh5zu643VT7BBqHhEwGwKzfXAsY
+         3KheOS6AFiqL0dgDkqfWV0J4O5f5YT9TTIWee85MzL+N7oMlvwRbiBJAh/Up2VJtFy/c
+         K+L+ftin+daSGv4utQBcymd2pw7SlbV+Ka7pt8uBfOicBPlUQNoCzQ7nbwM6y9xGhhsv
+         eUxXa+VKcMuEK2Lzozdm8yO8s3gHHudq9DBN6YSSUBtA09iucNcNIBFMO9jdcAuQV+iW
+         uVUTbZ7CPvYePngi3DsoXI8JDl1ge+VudHKkHeEcYrIgOwBdkwR0uKtoAVLRKY62Sfmw
+         +g4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:reply-to:from:sender:mime-version
+         :dkim-signature;
+        bh=+Ku/nDTsJKBegMEIru3nQTElBU2IjFiPeFgznn/Pr+A=;
+        fh=4Jnp2jO0cQ5AGptN16p9/WsxMMsBuzPPV9KkFoRlG6Q=;
+        b=qB8D4/NZwCn3pWFrpc/M3OtlaWNL3RiH0Z/Sn7L4taZk/idsWEsiF7hsLbKEUXhrEi
+         GcMcdIbAWPRaP2USLEsBWRQ47Q20mwLp0YiR7UCgcaFyp6ZD8qLv8twa8OVr5FRnUm+U
+         bOCJxX0g7gvC5TrSws8VFLR/bCnewFTf1cW3w3IdxRgk2/YBDZOZL0j4f2NgLI1zPq4i
+         /0YPirGb0fBM7RE0/kpKcyp/yH55x9IyohwZ+QCbNRoS9MBCe4/o6Afl6v+C2kRCUy/k
+         fxukl1gYZ+INMP1v6uZ1lGls/AMGrLaA1WAU2ZV724OGSreDC9hHXCQpgZKB97HZBAQv
+         ENMQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@hack2skill.com header.s=google header.b="pNZ0/3cF";
+       spf=neutral (google.com: 209.85.220.41 is neither permitted nor denied by domain of shakti@hack2skill.com) smtp.mailfrom=shakti@hack2skill.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=hack2skill.com
+Return-Path: <shakti@hack2skill.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id h3-20020a05620a400300b00787f200b1dcsor277034qko.2.2024.02.29.03.01.14
+        for <21z201@psgtech.ac.in>
+        (Google Transport Security);
+        Thu, 29 Feb 2024 03:01:15 -0800 (PST)
+Received-SPF: neutral (google.com: 209.85.220.41 is neither permitted nor denied by domain of shakti@hack2skill.com) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@hack2skill.com header.s=google header.b="pNZ0/3cF";
+       spf=neutral (google.com: 209.85.220.41 is neither permitted nor denied by domain of shakti@hack2skill.com) smtp.mailfrom=shakti@hack2skill.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=hack2skill.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hack2skill.com; s=google; t=1709204474; x=1709809274; darn=psgtech.ac.in;
+        h=to:subject:message-id:date:reply-to:from:sender:mime-version:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+Ku/nDTsJKBegMEIru3nQTElBU2IjFiPeFgznn/Pr+A=;
+        b=pNZ0/3cFvZ99Umq+1WiE3U4Oawuc9CfIs8MzuYM0xUejf/bYuFTc4NfGn8uggCa3BJ
+         tBQ/k+CCVvdG9kvpJ21m0iJL6iQhRelRJx/Cgh3I2vDdbo1CFhNFdf6xFKDZ6CFDp7ZN
+         9FT9PXb9W5YSS4rMLdR63qTXynvu95LxElzTru/z+t6JcBiBtIiyrsQ+gPdDUntiSSob
+         C47eU7pKzUnHmcjV/qNuGaIoVmbCGFDpPl6PDri7NZbEaR2oLRQ6zKnTi6vkci2d0FbI
+         I8KOPuDG69DhLBjPhWHlBIsGTuCuFpw6hbw6/RG2sf6tD0WJJAlTCvIYYoaaIh3o4w7G
+         Xpjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709204474; x=1709809274;
+        h=to:subject:message-id:date:reply-to:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Ku/nDTsJKBegMEIru3nQTElBU2IjFiPeFgznn/Pr+A=;
+        b=TsNJPCguMdpetzPyrfVQHTH28LXQGHAetCBAS7bIiyXlF6PDZ7w4ZlJ4gFwWS7IBjZ
+         y1T6BVY6ehr/+TRjHqmksweEJ5O7fzenD09LDxEWBGqghU1Sax40hg8v2F89OXe5fJ70
+         Y1MVgh+dSS5AbjyBcwH1XxlqEyiy/bSYToy48HYfy6prF/sQXnFDuaxZBsGkJQJBii6Y
+         IRFuCYQK00Hd/nV+ITaQnUyNDHXD20uqvifq48owhDOIgIGxWnGDwKwQvPIzPn8fHWun
+         WDVmzoL3/p7BFZNjfD/OAU+r3pJGxyCph1vJObcQyKvIxzLJMmAzPlgAwdBOukb7mERY
+         PSSw==
+X-Gm-Message-State: AOJu0YwLd08UB9sE0pKdFiuaAcN0xBUNkzb3EUZmRvjCJhzSyw2zeDPC
+	oOOJzm4VS9TwpVhIDEPF1+kFHomhSvkF5lcxsLTF9YEyIJTn+OTny70d2hLFNVWTd0B791qKc6K
+	eeGMQ37r+D4F0z98n6Y38xVqCa2dt5eDgrYCWmj5ySOTra+du
+X-Google-Smtp-Source: AGHT+IEVqlf9Zako+vX+IdnuLWTo6BYiFznxp5iw69dzFZZTaY6EHqUC5WmPLla/qqJAw4ewc/8TJFdc8T0H17r4J3E=
+X-Received: by 2002:a05:6214:508f:b0:68f:1c80:d78e with SMTP id
+ kk15-20020a056214508f00b0068f1c80d78emr1764652qvb.0.1709204474195; Thu, 29
+ Feb 2024 03:01:14 -0800 (PST)
+Received: from 52669349336 named unknown by gmailapi.google.com with HTTPREST;
+ Thu, 29 Feb 2024 03:01:13 -0800
+Received: from 52669349336 named unknown by gmailapi.google.com with HTTPREST;
+ Thu, 29 Feb 2024 03:01:13 -0800
+MIME-Version: 1.0
+Sender: Shakti Singh <shakti@hack2skill.com>
+From: Shakti Singh <shakti@hack2skill.com>
+Reply-To: support@hack2skill.com, simarjit@hack2skill.com
+Date: Thu, 29 Feb 2024 03:01:13 -0800
+X-Google-Sender-Auth: bhPGz2u7DOVfMbCobPdub82ETso
+Message-ID: <CAO53ART7yLf4mWpOq6-XP4rgO3M4ZA3Ni4s-GU8R_DeuL+a_zg@mail.gmail.com>
+Subject: Congratulations on Advancing to the Grand Finale of Scale +91 Hackathon!
+To: 21z <21z201@psgtech.ac.in>
+Content-Type: multipart/alternative; boundary="0000000000008875700612832ded"
+
+--0000000000008875700612832ded
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Dear Aadil Arsh S R
+
+We are thrilled to extend our heartfelt congratulations to you and your
+team for making it to the grand finale of the Scale +91 Hackathon! Your
+exceptional skills, creativity, and dedication have earned you a
+well-deserved place among the Top 11 teams.
+
+The grand finale is set to take place on 6th, 7th & 8th of March 2024, at
+the following location:
+
+
+   -
+
+   Venue: YASHOBHOOMI (IICC) in 1C, Sector 25 Dwarka, Bharthal, Delhi
+   -
+
+   Google Maps Link: https://maps.app.goo.gl/r8qBMdprjuK8fkzt7
+   <https://hack2skill-dot-yamm-track.appspot.com/22SJ7vaci9htOkmymH_OrGngp=
+VuCDySPOs05_OVNJecPKhYb0jQF0GhiZGunCx975g4SGT4koQ8feraqN_A2KOky0RexL3zCnJao=
+jSDQRxIto6GzKhvnPkEHeuKLJE0Mak3GpQBoPZyZNKzhqrjw8Al5kD8KgwlpETxw_ZZuqs8hMDF=
+t1BanCbzaI0AH3CG4lu0CpwHl6k5kxzmI>
+
+
+Please ensure your team's presence at the venue by 7:00 AM sharp on the 6th
+of March. Accommodation details for the nights of the 6th and 7th will be
+provided upon arrival.
+
+NOTE: Accommodation will only be provided for teams traveling outside of
+the Delhi NCR region.
+
+
+RSVP FORM
+
+Click Here to RSVP
+<https://hack2skill-dot-yamm-track.appspot.com/2TDRhNF2tiDqw7WPO0iS5GK51pq8=
+nZGxF1lY31_AqFtPNhYb0jQGiUGr-w4ykBQsvu08AdZJAwGm4P8FTJzZ7oDouS9xT6WK-K2ZGVJ=
+5nbrHOK3Jqi1d0dAYXXITnyUDCAYNaWPnOlcC9kouPAuJrB2ZdRoRL_oBhpprgGMjG8eZZmrokd=
+WyV3-R4v9Y-Unk9j0A>
+
+
+This form is only to be filled by Team Leader]
+
+WhatsApp Group Invite
+
+Click Here to Join
+<https://hack2skill-dot-yamm-track.appspot.com/28epVwnqrXbLJzyX0FuZYrhizdH9=
+A8RxZDqwV89ZaM7LPhYb0jQHv4HoTFNFi9JBt3vINbtO_VJeVtEsEO1K4oPt-MyyOlxUVzSVTnt=
+BrSS43FKw0OXkMprLKnJfkyrDVAkowjh1jZ28VdOuuklBKhnckiz8hLJ5qyGBgJT7RvZfs4CYPQ=
+hFlSVVdyaxHEbPrTrKSfQT9Yh72iw>
+
+All Members of the team
+
+
+*Team leader to make sure to get everyone added to the team.
+
+Additional Team Details
+
+Click Here to Fill Out
+<https://hack2skill-dot-yamm-track.appspot.com/2gfbcK25sFRHqSE33P8-IxpY4JJM=
+1mKb2KiXzdj3C89_ShYb0jQFjub8Vobf-PulXgXSb5Y23TOUm0-JF9F_aIOa_Qz49QMo6OjFK6U=
+JtTCE5NX1gqoP9vmooqvEnTh9-jpFmp6Ivw0ptOkyS3eXJaOMWRO2hfbHmbVcfEcNamonU1Nuy-=
+riE3MA1NkseH8k80WQ>
+
+All Members of the team
+
+
+*Team leader to make sure to get everyone added to the team.
+
+NOTE:
+
+
+   -
+
+   To confirm your attendance, kindly fill out the RSVP form by Monday noon=
+.
+   -
+
+   Join our WhatsApp group to stay connected with important updates and
+   announcements.
+   -
+
+   We kindly request you to fill out the Additional Details form by tomorro=
+w,
+   3 PM. In this form, you will need to submit your picture (in the
+   specified formats), mention your T-shirt size, and provide your social
+   media handle links.
+   -
+
+   Organizers will be taking care of the accommodation for participants
+   traveling outside of Delhi NCR for the nights of 6th & 7th March. Travel=
+ing
+   expenses are to be covered by individual teams.
+
+
+
+Furthermore, we will be hosting a meeting with all finalist teams from 4:00
+to 5:00 PM over Google Meet.
+
+
+Invitation link: meet.google.com/fnm-qcxa-goi
+<https://hack2skill-dot-yamm-track.appspot.com/2TvzBv97Hgth3yGgDuH0Ya6mJDgG=
+sHHGnJg7xxOu6De3UhYb0jQEDaF5AwfDCI-pgYA8n0b8TOkQ8un_rfm-22g70CD0ZpvMwSTRlT2=
+g7tkkcI96PxhFjrhYg9ZIamt-PgYj5iL4k0o2F7AVQRVtrZ84bVPl_wwis5_UVpjO_sd6v3d-HU=
+VSeo4L8>
+
+During this session, we will discuss the agenda for the grand finale in
+detail.
+
+Plus, if you have any doubts or queries, feel free to contact Simarjit at
+8800770236 or email us at support@hack2skill.com.
+
+Thank you once again for your outstanding performance, and we look forward
+to seeing you at the grand finale!
+
+Best Regards,
+Hack2skill
+[image: beacon]
+
+--0000000000008875700612832ded
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><span id=3D"gmail-docs-internal-guid-8d789694-7fff-17=
+8d-b30b-1f0c66b66788"><div dir=3D"ltr" style=3D"margin-left:0pt" align=3D"c=
+enter"><table style=3D"border:none;border-collapse:collapse;table-layout:fi=
+xed;width:451.276pt"><colgroup><col></colgroup><tbody><tr style=3D"height:0=
+pt"><td style=3D"vertical-align:top;padding:5pt;overflow:hidden"><p dir=3D"=
+ltr" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-bott=
+om:0pt"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;backgrou=
+nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
+rmal;font-variant-alternates:normal;vertical-align:baseline">Dear Aadil Ars=
+h S R</span></p><br><p dir=3D"ltr" style=3D"line-height:1.2;text-align:just=
+ify;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:10pt;font-fa=
+mily:Arial,sans-serif;background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
+align:baseline">We are thrilled to extend our heartfelt congratulations to =
+you and your team for making it to the </span><span style=3D"font-size:10pt=
+;font-family:Arial,sans-serif;background-color:transparent;font-weight:700;=
+font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alt=
+ernates:normal;vertical-align:baseline">grand finale</span><span style=3D"f=
+ont-size:10pt;font-family:Arial,sans-serif;background-color:transparent;fon=
+t-variant-numeric:normal;font-variant-east-asian:normal;font-variant-altern=
+ates:normal;vertical-align:baseline"> of the </span><span style=3D"font-siz=
+e:10pt;font-family:Arial,sans-serif;background-color:transparent;font-weigh=
+t:700;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
+nt-alternates:normal;vertical-align:baseline">Scale +91 Hackathon!</span><s=
+pan style=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:t=
+ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
+variant-alternates:normal;vertical-align:baseline"> Your exceptional skills=
+, creativity, and dedication have earned you a well-deserved place among th=
+e </span><span style=3D"font-size:10pt;font-family:Arial,sans-serif;backgro=
+und-color:transparent;font-weight:700;font-variant-numeric:normal;font-vari=
+ant-east-asian:normal;font-variant-alternates:normal;vertical-align:baselin=
+e">Top 11 teams</span><span style=3D"font-size:10pt;font-family:Arial,sans-=
+serif;background-color:transparent;font-variant-numeric:normal;font-variant=
+-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">=
+.</span></p><br><p dir=3D"ltr" style=3D"line-height:1.2;text-align:justify;=
+margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:10pt;font-family=
+:Arial,sans-serif;background-color:transparent;font-variant-numeric:normal;=
+font-variant-east-asian:normal;font-variant-alternates:normal;vertical-alig=
+n:baseline">The grand finale is set to take place on 6th, 7th &amp; 8th of =
+March 2024, at the following location:</span></p><br><ul style=3D"margin-to=
+p:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font=
+-size:10pt;font-family:Arial,sans-serif;background-color:transparent;font-v=
+ariant-numeric:normal;font-variant-east-asian:normal;font-variant-alternate=
+s:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
+ine-height:1.2;text-align:justify;margin-top:0pt;margin-bottom:0pt" role=3D=
+"presentation"><span style=3D"font-size:10pt;background-color:transparent;f=
+ont-weight:700;font-variant-numeric:normal;font-variant-east-asian:normal;f=
+ont-variant-alternates:normal;vertical-align:baseline">Venue</span><span st=
+yle=3D"font-size:10pt;background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
+align:baseline">: YASHOBHOOMI (IICC) in 1C, Sector 25 Dwarka, Bharthal, Del=
+hi</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:1=
+0pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
+ent;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant=
+-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" =
+style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-bottom:0p=
+t" role=3D"presentation"><span style=3D"font-size:10pt;color:rgb(34,34,34);=
+background-color:transparent;font-weight:700;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
+baseline">Google Maps Link:</span><span style=3D"font-size:10pt;color:rgb(3=
+4,34,34);background-color:transparent;font-variant-numeric:normal;font-vari=
+ant-east-asian:normal;font-variant-alternates:normal;vertical-align:baselin=
+e"> </span><a href=3D"https://hack2skill-dot-yamm-track.appspot.com/22SJ7va=
+ci9htOkmymH_OrGngpVuCDySPOs05_OVNJecPKhYb0jQF0GhiZGunCx975g4SGT4koQ8feraqN_=
+A2KOky0RexL3zCnJaojSDQRxIto6GzKhvnPkEHeuKLJE0Mak3GpQBoPZyZNKzhqrjw8Al5kD8Kg=
+wlpETxw_ZZuqs8hMDFt1BanCbzaI0AH3CG4lu0CpwHl6k5kxzmI" rel=3D"nofollow" style=
+=3D"text-decoration-line:none"><span style=3D"font-size:10pt;background-col=
+or:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;f=
+ont-variant-alternates:normal;text-decoration-line:underline;vertical-align=
+:baseline">https://maps.app.goo.gl/r8qBMdprjuK8fkzt7</span></a></p></li></u=
+l><br><p dir=3D"ltr" style=3D"line-height:1.2;text-align:justify;margin-top=
+:0pt;margin-bottom:0pt"><span style=3D"font-size:10pt;font-family:Arial,san=
+s-serif;background-color:transparent;font-weight:700;font-variant-numeric:n=
+ormal;font-variant-east-asian:normal;font-variant-alternates:normal;text-de=
+coration-line:underline;vertical-align:baseline">Please ensure your team&#3=
+9;s presence at the venue by 7:00 AM sharp on the 6th of March</span><span =
+style=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:trans=
+parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
+ant-alternates:normal;text-decoration-line:underline;vertical-align:baselin=
+e">. </span><span style=3D"font-size:10pt;font-family:Arial,sans-serif;back=
+ground-color:transparent;font-weight:700;font-variant-numeric:normal;font-v=
+ariant-east-asian:normal;font-variant-alternates:normal;text-decoration-lin=
+e:underline;vertical-align:baseline">Accommodation details for the nights o=
+f the 6th and 7th will be provided upon arrival.</span></p><br><p dir=3D"lt=
+r" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-bottom=
+:0pt"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;background=
+-color:transparent;font-weight:700;font-variant-numeric:normal;font-variant=
+-east-asian:normal;font-variant-alternates:normal;text-decoration-line:unde=
+rline;vertical-align:baseline">NOTE: Accommodation will only be provided fo=
+r teams traveling outside of the Delhi NCR region.</span></p><br><br><div d=
+ir=3D"ltr" style=3D"margin-left:0pt" align=3D"left"><table style=3D"border:=
+none;border-collapse:collapse;table-layout:fixed;width:100%"><colgroup><col=
+><col><col></colgroup><tbody><tr style=3D"height:0pt"><td style=3D"border-w=
+idth:0.5pt;border-style:solid;border-color:rgb(0,0,0);vertical-align:top;ba=
+ckground-color:rgb(241,243,244);padding:5pt;overflow:hidden"><p dir=3D"ltr"=
+ style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt"><span style=3D"=
+font-size:10pt;font-family:Arial,sans-serif;background-color:transparent;fo=
+nt-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alter=
+nates:normal;vertical-align:baseline">RSVP FORM</span></p></td><td style=3D=
+"border-width:0.5pt;border-style:solid;border-color:rgb(0,0,0);vertical-ali=
+gn:top;background-color:rgb(241,243,244);padding:5pt;overflow:hidden"><p di=
+r=3D"ltr" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin=
+-bottom:0pt"><a href=3D"https://hack2skill-dot-yamm-track.appspot.com/2TDRh=
+NF2tiDqw7WPO0iS5GK51pq8nZGxF1lY31_AqFtPNhYb0jQGiUGr-w4ykBQsvu08AdZJAwGm4P8F=
+TJzZ7oDouS9xT6WK-K2ZGVJ5nbrHOK3Jqi1d0dAYXXITnyUDCAYNaWPnOlcC9kouPAuJrB2ZdRo=
+RL_oBhpprgGMjG8eZZmrokdWyV3-R4v9Y-Unk9j0A" rel=3D"nofollow" style=3D"text-d=
+ecoration-line:none"><span style=3D"font-size:10pt;font-family:Arial,sans-s=
+erif;background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;font-variant-alternates:normal;text-decoration-line:under=
+line;vertical-align:baseline">Click Here to RSVP</span></a><span style=3D"f=
+ont-size:10pt;font-family:Arial,sans-serif;background-color:transparent;fon=
+t-variant-numeric:normal;font-variant-east-asian:normal;font-variant-altern=
+ates:normal;vertical-align:baseline">=C2=A0</span></p></td><td style=3D"bor=
+der-width:0.5pt;border-style:solid;border-color:rgb(0,0,0);vertical-align:t=
+op;background-color:rgb(241,243,244);padding:5pt;overflow:hidden"><p dir=3D=
+"ltr" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-bot=
+tom:0pt"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;backgro=
+und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
+ormal;font-variant-alternates:normal;vertical-align:baseline">This form is =
+only to be filled by Team Leader]</span></p></td></tr><tr style=3D"height:0=
+pt"><td style=3D"border-width:0.5pt;border-style:solid;border-color:rgb(0,0=
+,0);vertical-align:top;background-color:rgb(241,243,244);padding:5pt;overfl=
+ow:hidden"><p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bo=
+ttom:0pt"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;font-variant-alternates:normal;vertical-align:baseline">WhatsApp Gro=
+up Invite</span></p></td><td style=3D"border-width:0.5pt;border-style:solid=
+;border-color:rgb(0,0,0);vertical-align:top;background-color:rgb(241,243,24=
+4);padding:5pt;overflow:hidden"><p dir=3D"ltr" style=3D"line-height:1.2;tex=
+t-align:justify;margin-top:0pt;margin-bottom:0pt"><a href=3D"https://hack2s=
+kill-dot-yamm-track.appspot.com/28epVwnqrXbLJzyX0FuZYrhizdH9A8RxZDqwV89ZaM7=
+LPhYb0jQHv4HoTFNFi9JBt3vINbtO_VJeVtEsEO1K4oPt-MyyOlxUVzSVTntBrSS43FKw0OXkMp=
+rLKnJfkyrDVAkowjh1jZ28VdOuuklBKhnckiz8hLJ5qyGBgJT7RvZfs4CYPQhFlSVVdyaxHEbPr=
+TrKSfQT9Yh72iw" rel=3D"nofollow" style=3D"text-decoration-line:none"><span =
+style=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:trans=
+parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
+ant-alternates:normal;text-decoration-line:underline;vertical-align:baselin=
+e">Click Here to Join</span></a></p></td><td style=3D"border-width:0.5pt;bo=
+rder-style:solid;border-color:rgb(0,0,0);vertical-align:top;background-colo=
+r:rgb(241,243,244);padding:5pt;overflow:hidden"><p dir=3D"ltr" style=3D"lin=
+e-height:1.2;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:10p=
+t;font-family:Arial,sans-serif;background-color:transparent;font-variant-nu=
+meric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;=
+vertical-align:baseline">All Members of the team</span></p><p dir=3D"ltr" s=
+tyle=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt"><span style=3D"fo=
+nt-size:10pt;font-family:Arial,sans-serif;background-color:transparent;font=
+-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alterna=
+tes:normal;vertical-align:baseline"><br></span><span style=3D"font-size:10p=
+t;font-family:Arial,sans-serif;background-color:transparent;font-variant-nu=
+meric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;=
+vertical-align:baseline">*Team leader to make sure to get everyone added to=
+ the team.</span></p></td></tr><tr style=3D"height:0pt"><td style=3D"border=
+-width:0.5pt;border-style:solid;border-color:rgb(0,0,0);vertical-align:top;=
+background-color:rgb(241,243,244);padding:5pt;overflow:hidden"><p dir=3D"lt=
+r" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt"><span style=
+=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline">Additional Team Details</span></p=
+></td><td style=3D"border-width:0.5pt;border-style:solid;border-color:rgb(0=
+,0,0);vertical-align:top;background-color:rgb(241,243,244);padding:5pt;over=
+flow:hidden"><p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-=
+bottom:0pt"><a href=3D"https://hack2skill-dot-yamm-track.appspot.com/2gfbcK=
+25sFRHqSE33P8-IxpY4JJM1mKb2KiXzdj3C89_ShYb0jQFjub8Vobf-PulXgXSb5Y23TOUm0-JF=
+9F_aIOa_Qz49QMo6OjFK6UJtTCE5NX1gqoP9vmooqvEnTh9-jpFmp6Ivw0ptOkyS3eXJaOMWRO2=
+hfbHmbVcfEcNamonU1Nuy-riE3MA1NkseH8k80WQ" rel=3D"nofollow" style=3D"text-de=
+coration-line:none"><span style=3D"font-size:10pt;font-family:Arial,sans-se=
+rif;background-color:transparent;font-variant-numeric:normal;font-variant-e=
+ast-asian:normal;font-variant-alternates:normal;text-decoration-line:underl=
+ine;vertical-align:baseline">Click Here to Fill Out</span></a></p></td><td =
+style=3D"border-width:0.5pt;border-style:solid;border-color:rgb(0,0,0);vert=
+ical-align:top;background-color:rgb(241,243,244);padding:5pt;overflow:hidde=
+n"><p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;background-col=
+or:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;f=
+ont-variant-alternates:normal;vertical-align:baseline">All Members of the t=
+eam</span></p><p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin=
+-bottom:0pt"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;bac=
+kground-color:transparent;font-variant-numeric:normal;font-variant-east-asi=
+an:normal;font-variant-alternates:normal;vertical-align:baseline"><br></spa=
+n><span style=3D"font-size:10pt;font-family:Arial,sans-serif;background-col=
+or:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;f=
+ont-variant-alternates:normal;vertical-align:baseline">*Team leader to make=
+ sure to get everyone added to the team.</span></p></td></tr></tbody></tabl=
+e></div><br><p dir=3D"ltr" style=3D"line-height:1.2;text-align:justify;marg=
+in-top:0pt;margin-bottom:0pt"><span style=3D"font-size:10pt;font-family:Ari=
+al,sans-serif;background-color:transparent;font-weight:700;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
+ertical-align:baseline">NOTE:</span><span style=3D"font-size:10pt;font-fami=
+ly:Arial,sans-serif;background-color:transparent;font-variant-numeric:norma=
+l;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-al=
+ign:baseline">=C2=A0</span></p><br><ul style=3D"margin-top:0px;margin-botto=
+m:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:10pt;font-fa=
+mily:Arial,sans-serif;background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
+align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.2;tex=
+t-align:justify;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
+an style=3D"font-size:10pt;background-color:transparent;font-variant-numeri=
+c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
+ical-align:baseline">To confirm your attendance, kindly fill out the RSVP f=
+orm by </span><span style=3D"font-size:10pt;background-color:transparent;fo=
+nt-weight:700;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;text-decoration-line:underline;vertical-align:=
+baseline">Monday noon</span><span style=3D"font-size:10pt;background-color:=
+transparent;font-weight:700;font-variant-numeric:normal;font-variant-east-a=
+sian:normal;font-variant-alternates:normal;vertical-align:baseline">.</span=
+></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:10pt;font=
+-family:Arial,sans-serif;background-color:transparent;font-variant-numeric:=
+normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
+al-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.2;=
+text-align:justify;margin-top:0pt;margin-bottom:0pt" role=3D"presentation">=
+<span style=3D"font-size:10pt;background-color:transparent;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
+ertical-align:baseline">Join our WhatsApp group to stay connected with impo=
+rtant updates and announcements.</span></p></li><li dir=3D"ltr" style=3D"li=
+st-style-type:disc;font-size:10pt;font-family:Arial,sans-serif;background-c=
+olor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal=
+;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p=
+ dir=3D"ltr" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;mar=
+gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:10pt;backgro=
+und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
+ormal;font-variant-alternates:normal;vertical-align:baseline">We kindly req=
+uest you to fill out the Additional Details form by </span><span style=3D"f=
+ont-size:10pt;background-color:transparent;font-weight:700;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;t=
+ext-decoration-line:underline;vertical-align:baseline">tomorrow, 3 PM</span=
+><span style=3D"font-size:10pt;background-color:transparent;font-variant-nu=
+meric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;=
+vertical-align:baseline">. In this form, you will need to submit your pictu=
+re (in the specified formats), mention your T-shirt size, and provide your =
+social media handle links.</span></p></li><li dir=3D"ltr" style=3D"list-sty=
+le-type:disc;font-size:10pt;font-family:Arial,sans-serif;background-color:t=
+ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
+variant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=
+=3D"ltr" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-=
+bottom:0pt" role=3D"presentation"><span style=3D"font-size:10pt;background-=
+color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
+l;font-variant-alternates:normal;text-decoration-line:underline;vertical-al=
+ign:baseline">Organizers will be taking care of the accommodation for parti=
+cipants traveling outside of Delhi NCR for the nights of 6th &amp; 7th Marc=
+h. Traveling expenses are to be covered by individual teams.</span></p></li=
+></ul><br><br><p dir=3D"ltr" style=3D"line-height:1.2;text-align:justify;ma=
+rgin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:10pt;font-family:A=
+rial,sans-serif;background-color:transparent;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
+baseline">Furthermore, we will be hosting a meeting with all finalist teams=
+ from </span><span style=3D"font-size:10pt;font-family:Arial,sans-serif;bac=
+kground-color:transparent;font-weight:700;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-variant-alternates:normal;vertical-align:bas=
+eline">4:00 to 5:00 PM</span><span style=3D"font-size:10pt;font-family:Aria=
+l,sans-serif;background-color:transparent;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-variant-alternates:normal;vertical-align:bas=
+eline"> over Google Meet.=C2=A0</span></p><p dir=3D"ltr" style=3D"line-heig=
+ht:1.2;text-align:justify;margin-top:0pt;margin-bottom:0pt"><span style=3D"=
+font-size:10pt;font-family:Arial,sans-serif;background-color:transparent;fo=
+nt-weight:700;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;vertical-align:baseline"><br></span><span styl=
+e=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:transpare=
+nt;font-weight:700;font-variant-numeric:normal;font-variant-east-asian:norm=
+al;font-variant-alternates:normal;vertical-align:baseline">Invitation link:=
+ </span><a href=3D"https://hack2skill-dot-yamm-track.appspot.com/2TvzBv97Hg=
+th3yGgDuH0Ya6mJDgGsHHGnJg7xxOu6De3UhYb0jQEDaF5AwfDCI-pgYA8n0b8TOkQ8un_rfm-2=
+2g70CD0ZpvMwSTRlT2g7tkkcI96PxhFjrhYg9ZIamt-PgYj5iL4k0o2F7AVQRVtrZ84bVPl_wwi=
+s5_UVpjO_sd6v3d-HUVSeo4L8" rel=3D"nofollow" style=3D"text-decoration-line:n=
+one"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;background-=
+color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
+l;font-variant-alternates:normal;text-decoration-line:underline;vertical-al=
+ign:baseline">meet.google.com/fnm-qcxa-goi</span></a></p><br><p dir=3D"ltr"=
+ style=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-bottom:0=
+pt"><span style=3D"font-size:10pt;font-family:Arial,sans-serif;background-c=
+olor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal=
+;font-variant-alternates:normal;vertical-align:baseline">During this sessio=
+n, we will discuss the agenda for the grand finale in detail.</span></p><br=
+><p dir=3D"ltr" style=3D"line-height:1.2;text-align:justify;margin-top:0pt;=
+margin-bottom:0pt"><span style=3D"font-size:10pt;font-family:Arial,sans-ser=
+if;background-color:transparent;font-variant-numeric:normal;font-variant-ea=
+st-asian:normal;font-variant-alternates:normal;vertical-align:baseline">Plu=
+s, if you have any doubts or queries, feel free to contact </span><span sty=
+le=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:transpar=
+ent;font-weight:700;font-variant-numeric:normal;font-variant-east-asian:nor=
+mal;font-variant-alternates:normal;vertical-align:baseline">Simarjit at 880=
+0770236</span><span style=3D"font-size:10pt;font-family:Arial,sans-serif;ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline"> or emai=
+l us at </span><a href=3D"mailto:support@hack2skill.com" style=3D"text-deco=
+ration-line:none"><span style=3D"font-size:10pt;font-family:Arial,sans-seri=
+f;background-color:transparent;font-variant-numeric:normal;font-variant-eas=
+t-asian:normal;font-variant-alternates:normal;text-decoration-line:underlin=
+e;vertical-align:baseline">support@hack2skill.com</span></a><span style=3D"=
+font-size:10pt;font-family:Arial,sans-serif;background-color:transparent;fo=
+nt-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alter=
+nates:normal;vertical-align:baseline">.</span></p><br><p dir=3D"ltr" style=
+=3D"line-height:1.2;text-align:justify;margin-top:0pt;margin-bottom:0pt"><s=
+pan style=3D"font-size:10pt;font-family:Arial,sans-serif;background-color:t=
+ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
+variant-alternates:normal;vertical-align:baseline">Thank you once again for=
+ your outstanding performance, and we look forward to seeing you at the gra=
+nd finale!</span></p><br><p dir=3D"ltr" style=3D"line-height:1.2;text-align=
+:justify;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:10pt;fo=
+nt-family:Arial,sans-serif;background-color:transparent;font-variant-numeri=
+c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
+ical-align:baseline">Best Regards,</span><span style=3D"font-size:10pt;font=
+-family:Arial,sans-serif;background-color:transparent;font-variant-numeric:=
+normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
+al-align:baseline"><br></span><span style=3D"font-size:10pt;font-family:Ari=
+al,sans-serif;background-color:transparent;font-variant-numeric:normal;font=
+-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
+seline">Hack2skill</span></p></td></tr></tbody></table></div></span></div><=
+/div>
+<img src=3D"https://hack2skill-dot-yamm-track.appspot.com/2HNdVZRs9TCZ50TrF=
+tH70MBXtK-3klruXEz6_98NHDyvHhYb0jQEdYyzZHH_ONxLJOrBa7IukHc_ZrUaHpSeiECRbbb1=
+irDAZMUC478l8zb8qM2fxzkfz2Z4WDcThPK76fmYoxZWefBEQFi--aBNl5u6QebgoaePDuw" wi=
+dth=3D"1" height=3D"1" alt=3D"beacon" style=3D"display:none; display:none!i=
+mportant;">
+
+--0000000000008875700612832ded--
