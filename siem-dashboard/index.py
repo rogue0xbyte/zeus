@@ -46,7 +46,7 @@ def get_news():
 
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'zeus')))
 
-    from orgEnum import gn_bs_db
+    from elements.orgEnum import gn_bs_db
 
     # Then you can call fetch_news() directly
     news_data = gn_bs_db.ingest_google_news()
