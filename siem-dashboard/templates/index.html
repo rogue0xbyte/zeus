@@ -66,6 +66,7 @@
 				<a href="{{url_for('phish_mail')}}" id="nav-mail">Detect Mail</a>
 				<a href="{{url_for('fraud')}}" id="nav-fraud">Check Credit Card</a>
 				<a href="{{url_for('real')}}" id="nav-real">Anti-Spoofer</a>
+				<a href="{{url_for('ti')}}" id="nav-real">Threat Intel</a>
 				<a>Light Mode:
 				<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect light-mode-switch" for="lightModeSwitch" style="margin-left: 10px!important;">
 				  <input type="checkbox" id="lightModeSwitch" class="mdl-switch__input">
@@ -103,7 +104,7 @@
            console.log(document.body.classList);
 
            const mainElements = document.querySelectorAll('main');
-
+s
            mainElements.forEach(function (mainElement) {
               mainElement.classList.toggle('light-mode');
            });

@@ -1,0 +1,119 @@
+{% extends "index.html" %}
+{% block title %}Threat Intel{% endblock %}
+{% block head %}
+  {{ super() }}
+    <title>Subdomains Search</title>
+    <style>
+
+
+        .news-feed,
+        .org-enum {
+            width: 48%; /* Adjust the width based on your preference */
+            box-sizing: border-box;
+            margin: 10px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .news-feed{
+            border-right: 1px solid black;
+            padding-right: 10px;
+        }
+            
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div style="display: flex; justify-content: space-between;">
+
+        <div class="news-feed" id="newsFeed" style="width: 48%; box-sizing: border-box;">
+            <div class="modal-dialog" role="document">
+                <div class="content">
+                    <div class="header">
+                        <h5 class="title" id="welcomeModalLabel">Threat News Feed</h5>
+                    </div>
+                    <div id="newsContainer"></div>
+                </div>
+            </div>
+        </div>    
+        <div class="org-enum">
+            <h1>Enter Organization Name to Search for Details</h1>
+            <form method="post">
+                <input type="text" name="domain" placeholder="Enter Organization Name">
+                <input type="submit" value="Search">
+            </form>
+            <h2>Subdomains</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Subdomain</th>
+                        <th>IP Address</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subdomain in subdomains %}
+                    <tr>
+                        <td>{{ subdomain['Subdomain'] }}</td>
+                        <td>{{ subdomain['IP Address'] }}</td>
+                        <td><a target="_blank" href="{{ url_for('details', ip=subdomain['IP Address']) }}">Details</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br/><br/>
+            <h2>Employees</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>LinkedIn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp in employees %}
+                    <tr>
+                        <td>{{ emp['name'] }}</td>
+                        <td><a target="_blank" href="{{emp['url']}}">Details</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+
+    </div>
+        
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+        <script>
+
+            $(document).ready(function(){
+                
+                fetchNews();
+            });
+            async function fetchNews() {
+                        try {
+                            const response = await fetch('/get_news'); // Assuming your Python server is running on the same domain
+                            const data = await response.json();
+                            displayNews(data);
+                        } catch (error) {
+                            console.error('Error fetching news:', error);
+                        }
+                    }
+
+                    function displayNews(news) {
+                        const newsContainer = document.getElementById('newsContainer');
+                        news.forEach(item => {
+                            const newsItem = document.createElement('div');
+                            newsItem.innerHTML = `
+                                <h3>${item.title}</h3>
+                                <p>Date: ${item.date_posted}</p>
+                                <p><a href="${item.url}" target="_blank">Read more</a></p>
+                                <hr>
+                            `;
+                            newsContainer.appendChild(newsItem);
+                        });
+                    }
+        </script>
+    {% endblock %}
+    

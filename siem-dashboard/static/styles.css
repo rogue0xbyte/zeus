@@ -216,3 +216,80 @@ pre {
 form, .colorChanger {
   color:white;
 }
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+}
+
+/* Modal Header */
+.modal-header {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 10px 20px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 10px 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #dee2e6;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #ccc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Overlay */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Animation */
+.modal-content {
+  animation: modalzoom 0.3s;
+}
+
+@keyframes modalzoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+
