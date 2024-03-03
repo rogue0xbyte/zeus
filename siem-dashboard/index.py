@@ -7,7 +7,11 @@ from werkzeug.utils import secure_filename
 import os
 import psycopg2
 import sys
-sys.path.append(f"{os.path.dirname(os.getcwd())}/elements/src")
+sys.path.append(f"{os.path.dirname(os.getcwd())}/zeus-pudhu/zeus/elements/src/") # MacOS
+sys.path.append(f"{os.path.dirname(os.getcwd())}/elements/src/") # Windows
+sys.path.append(f"{os.path.dirname(os.getcwd())}/zeus-pudhu/zeus/elements/") # MacOS
+sys.path.append(f"{os.path.dirname(os.getcwd())}/elements/") # Windows
+print(sys.path)
 import pandas as pd
 import joblib
 import datetime, json
@@ -33,6 +37,22 @@ def predict_single_transaction(transaction, preprocessor, svd, classifier):
 
 DATABASE_URL = "postgresql://postgres:inr_db@db.inr.intellx.in/zeus"
 CONNECTION = psycopg2.connect(DATABASE_URL)
+
+@app.route('/get_news')
+def get_news():
+    # Call the function to fetch and parse news data
+    import sys
+    import os
+
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'zeus')))
+
+    from elements.orgEnum import gn_bs_db
+
+    # Then you can call fetch_news() directly
+    news_data = gn_bs_db.ingest_google_news()
+    news_dict = news_data.to_dict(orient='records')
+    print(news_dict)
+    return jsonify(news_dict)
 
 @app.route('/')
 def main():
@@ -238,8 +258,8 @@ def phish_mail():
     if request.method == 'POST':
         try:
             email_text = request.form['emailText'].strip()
-            if email_text == '':
-                print(yamborghini)
+            # if email_text == '':
+            #     print(yamborghini)
             src = "txt"
         except:
             # try:
@@ -297,7 +317,6 @@ def real():
     import torch
     from torchvision import transforms
     from Model import DeePixBiS
-    from flask import Response
 
     model = DeePixBiS()
     model.load_state_dict(torch.load('./DeePixBiS.pth'))
@@ -312,15 +331,11 @@ def real():
 
     faceClassifier = cv.CascadeClassifier('Classifiers/haarface.xml')
 
-    # IP camera credentials
-    username = 'aadil'
-    password = '12345'
-    ip_address = '192.168.1.4'
-    port = '5555'
-    video_path = f"http://{username}:{password}@{ip_address}:{port}/video"
+    camera = cv.VideoCapture(0)
+
+    result = []
 
     def generate_frames():
-        camera = cv.VideoCapture(video_path)
         while True:
             _, img = camera.read()
             grey = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -351,9 +366,14 @@ def real():
 
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 @app.route('/real_page', methods=['GET', 'POST'])
 def real_page():
     return render_template('realtime.html')
+
+@app.route('/threat', methods=['GET', 'POST'])
+def ti():
+    return render_template('threatintel.html')
 
 
 if __name__ == '__main__':    

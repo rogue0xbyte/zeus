@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import csv
 import webbrowser
 import shodan
@@ -72,7 +72,7 @@ def web_request(url, timeout=3, proxies=[], **kwargs):
         p = r.prepare()
         return s.send(p, timeout=timeout, verify=False, proxies=get_proxy(proxies))
     except requests.exceptions.TooManyRedirects as e:
-        Log.fail('Proxy Error: {}'.format(e))
+        print.fail('Proxy Error: {}'.format(e))
     except:
         pass
     return False
@@ -159,9 +159,22 @@ def index():
         return render_template('index.html', subdomains=[], employees=[])
     return render_template('index.html', subdomains=[], employees=[])
 
+from gn_bs_db import ingest_google_news 
+# Define route for fetching news data
+@app.route('/get_news')
+def get_news():
+    # Call the function to fetch and parse news data
+    news_data = ingest_google_news()  # This function should return the parsed news data
+    news_dict = news_data.to_dict(orient='records')
+    return jsonify(news_dict)
+    
+if __name__ == '__main__':
+    app.run(debug=True)  # Run the Flask app in debug mode
+
+
 @app.route('/details/<ip>')
 def details(ip):
     return redirect(f"https://www.shodan.io/search/report?query=ip%3A{ip}")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+
