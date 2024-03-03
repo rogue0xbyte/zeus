@@ -11,7 +11,6 @@ sys.path.append(f"{os.path.dirname(os.getcwd())}/zeus-pudhu/zeus/elements/src/")
 sys.path.append(f"{os.path.dirname(os.getcwd())}/elements/src/") # Windows
 sys.path.append(f"{os.path.dirname(os.getcwd())}/zeus-pudhu/zeus/elements/") # MacOS
 sys.path.append(f"{os.path.dirname(os.getcwd())}/elements/") # Windows
-print(sys.path)
 import pandas as pd
 import joblib
 import datetime, json
@@ -23,9 +22,13 @@ from torchvision import transforms
 from Model import DeePixBiS
 import time
 import base64
+from orgEnum import gn_bs_db, srcher
+import csv
+
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
 
 def predict_single_transaction(transaction, preprocessor, svd, classifier):
     features = ['step', 'customer', 'age', 'gender', 'merchant', 'category', 'amount']
@@ -40,19 +43,16 @@ CONNECTION = psycopg2.connect(DATABASE_URL)
 
 @app.route('/get_news')
 def get_news():
-    # Call the function to fetch and parse news data
-    import sys
-    import os
-
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'zeus')))
 
-    from elements.orgEnum import gn_bs_db
-
     # Then you can call fetch_news() directly
-    news_data = gn_bs_db.ingest_google_news()
-    news_dict = news_data.to_dict(orient='records')
-    print(news_dict)
-    return jsonify(news_dict)
+    try:
+        news_data = gn_bs_db.ingest_google_news()
+        news_dict = news_data.to_dict(orient='records')
+        print(news_dict)
+        return jsonify(news_dict)
+    except:
+        return []
 
 @app.route('/')
 def main():
@@ -373,7 +373,26 @@ def real_page():
 
 @app.route('/threat', methods=['GET', 'POST'])
 def ti():
-    return render_template('threatintel.html')
+    if request.method == 'POST':
+        company_name = request.form['domain']
+        domain = srcher.extract_domain_from_google(company_name)
+        employees = srcher.get_employees(company_name)
+        employeeLinks = []
+        uniqueEmployees = []
+        for emp in employees:
+            if emp['url'] not in employeeLinks:
+                employeeLinks.append(emp['url'])
+                uniqueEmployees.append(emp)
+        employees = uniqueEmployees
+        if domain:
+            csv_file = srcher.search_subdomains(domain)
+            if csv_file:
+                with open(csv_file, 'r') as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    subdomains = [{'Subdomain': row['Subdomain'], 'IP Address': row['IP Address']} for row in reader]
+                return render_template('threatintel.html', subdomains=subdomains, employees=employees)
+        return render_template('threatintel.html', subdomains=[], employees=[])
+    return render_template('threatintel.html', subdomains=[], employees=[])
 
 
 if __name__ == '__main__':    

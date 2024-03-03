@@ -293,3 +293,14 @@ form, .colorChanger {
   to {transform: scale(1)}
 }
 
+.newsContainer{
+  color: black!important;
+}
+
+h1, h3, p, h2, td {
+  color: white;
+}
+
+h1.light-mode, h3.light-mode, p.light-mode, h2.light-mode, td.light-mode {
+  color: black!important;
+}

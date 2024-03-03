@@ -12,7 +12,7 @@ from unidecode import unidecode
 from urllib.parse import urlparse
 from datetime import datetime, timedelta
 from urllib3 import disable_warnings, exceptions
-from employeeEnum import *
+from orgEnum.employeeEnum import *
 
 # Your Shodan API key
 SHODAN_API_KEY = '038pg8hedD90mEQJoPun3IPI02NJge3h'
@@ -135,7 +135,7 @@ def open_report(ip_list):
     for ip in ip_list:
         url = base_url.format(ip)
         webbrowser.open(url)
-
+'''
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -178,3 +178,4 @@ def details(ip):
 
 
 
+'''

@@ -130,5 +130,3 @@ def list_dict():
             h[header]=value
         ordered_headers_list.append(h)
     return ordered_headers_list
-
-ingest_google_news()

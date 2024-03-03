@@ -55,7 +55,7 @@
                     <tr>
                         <td>{{ subdomain['Subdomain'] }}</td>
                         <td>{{ subdomain['IP Address'] }}</td>
-                        <td><a target="_blank" href="{{ url_for('details', ip=subdomain['IP Address']) }}">Details</a></td>
+                        <td><a target="_blank" href="https://www.shodan.io/search/report?query=ip%3A{{subdomain['IP Address']}}">Details</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

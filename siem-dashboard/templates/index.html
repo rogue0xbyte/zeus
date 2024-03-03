@@ -104,7 +104,7 @@
            console.log(document.body.classList);
 
            const mainElements = document.querySelectorAll('main');
-s
+
            mainElements.forEach(function (mainElement) {
               mainElement.classList.toggle('light-mode');
            });
@@ -160,6 +160,30 @@ s
 			// Select and toggle 'light-mode' class for table cells (td)
 			const activeCells = document.querySelectorAll('td');
 			activeCells.forEach(function(cell) {
+			    cell.classList.toggle('light-mode');
+			});
+
+			// Select and toggle 'light-mode' class for table cells (h1)
+			const activeH1s = document.querySelectorAll('h1');
+			activeH1s.forEach(function(cell) {
+			    cell.classList.toggle('light-mode');
+			});
+
+			// Select and toggle 'light-mode' class for table cells (h2)
+			const activeH2s = document.querySelectorAll('h2');
+			activeH2s.forEach(function(cell) {
+			    cell.classList.toggle('light-mode');
+			});
+
+			// Select and toggle 'light-mode' class for table cells (h3)
+			const activeH3s = document.querySelectorAll('h3');
+			activeH3s.forEach(function(cell) {
+			    cell.classList.toggle('light-mode');
+			});
+
+			// Select and toggle 'light-mode' class for table cells (p)
+			const activePs = document.querySelectorAll('p');
+			activePs.forEach(function(cell) {
 			    cell.classList.toggle('light-mode');
 			});
 
@@ -281,6 +305,30 @@ s
 		            cell.classList.toggle('light-mode');
 		        });
 
+		        // Select and toggle 'light-mode' class for table cells (h1)
+		        const activeH1s = document.querySelectorAll('h1');
+		        activeH1s.forEach(function(cell) {
+		            cell.classList.toggle('light-mode');
+		        });
+
+		        // Select and toggle 'light-mode' class for table cells (h2)
+		        const activeH2s = document.querySelectorAll('h2');
+		        activeH2s.forEach(function(cell) {
+		            cell.classList.toggle('light-mode');
+		        });
+
+		        // Select and toggle 'light-mode' class for table cells (h3)
+		        const activeH3s = document.querySelectorAll('h3');
+		        activeH3s.forEach(function(cell) {
+		            cell.classList.toggle('light-mode');
+		        });
+
+		        // Select and toggle 'light-mode' class for table cells (p)
+		        const activePs = document.querySelectorAll('p');
+		        activePs.forEach(function(cell) {
+		            cell.classList.toggle('light-mode');
+		        });
+
 		        // Select and toggle 'light-mode' class for elements with class '.dataTables_info'
 		        const activeDataTablesInfo = document.querySelectorAll('.dataTables_info');
 		        activeDataTablesInfo.forEach(function(element) {
@@ -322,8 +370,6 @@ s
 		        if (switchSlider.classList.contains('light-mode') !== lightModeSwitch.checked) {
 		            lightModeSwitch.checked = switchSlider.classList.contains('light-mode');
 		        }
-
-		        console.log(lightModeSwitch.checked, switchSlider.classList.contains('light-mode'), lightModeSwitch.checked = switchSlider.classList.contains('light-mode'));
 		    }
 		}
 
