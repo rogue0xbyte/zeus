@@ -116,4 +116,3 @@ We have created a framework based on SWIFT CSCF (https://www2.swift.com/knowledg
 - Likith (21z216@psgtech.ac.in)
 - Aadil (21z201@psgtech.ac.in)
 - Gaurav (gaurav.vishnu11@gmail.com)
-- Mithilesh (mithileshen0979@gmail.com)

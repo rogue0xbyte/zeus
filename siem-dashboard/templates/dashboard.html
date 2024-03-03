@@ -5,11 +5,32 @@
   <script src="{{url_for('static', filename='chart.js')}}"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.rawgit.com/jasondavies/d3-cloud/v1.2.5/build/d3.layout.cloud.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 {% endblock %}
 {% block content %}
 
 <script>document.querySelector('#nav-dashboard').classList.add('active');</script>
 
+  <!-- Modal -->
+<div class="modal" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="welcomeModalLabel">News Feed</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="newsContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div class="main">
 
@@ -62,256 +83,302 @@
 
 <script>
 
-function generateTLRandomColor() {
-  // Define the color palette in RGB
-  const palette = [
-    { red: 23, green: 193, blue: 190 },
-    { red: 99, green: 206, blue: 198 },
-    { red: 175, green: 220, blue: 207 },
-    { red: 251, green: 233, blue: 215 }
-  ];
+// JavaScript code to fetch and display news data
 
-  // Choose a random color from the palette
-  const randomColor = palette[Math.floor(Math.random() * palette.length)];
-
-  // Generate random shades for each channel
-  const shadeRed = Math.floor(Math.random() * 75);
-  const shadeGreen = Math.floor(Math.random() * 75);
-  const shadeBlue = Math.floor(Math.random() * 75);
-
-  // Generate a random value for the alpha channel between 0.1 and 1
-  const alpha = 0.6;
-
-  // Construct the RGBA color string with random shades
-  const colorString = `rgba(${randomColor.red + shadeRed},${randomColor.green + shadeGreen},${randomColor.blue + shadeBlue},${alpha})`;
-
-  return colorString;
-}
-
-// Function to generate an opaque version of a given color
-function genOP(colorList) {
-  return 
-}
- 
- var bgColors = Array.from({ length: 2 }, () => generateTLRandomColor());
-
-        // Sample data for the charts
-        const fraudData = {
-            labels: ['Total Transactions', 'Fraudulent Transactions'],
-            datasets: [{
-                data: [500, 150], // replace with actual data
-                backgroundColor: bgColors
-            }]
-        };
-
- var bgColors = Array.from({ length: 2 }, () => generateTLRandomColor());
-
-        const phishingData = {
-            labels: ['Phishing Emails', 'Safe Emails'],
-            datasets: [{
-                data: [60, 140], // replace with actual data
-                backgroundColor: bgColors
-            }]
-        };
-
-        // Bar Chart: # of Fraud vs Total # of Transactions
-        const fraudCtx = document.getElementById('fraudBarChart').getContext('2d');
-        const fraudBarChart = new Chart(fraudCtx, {
-            type: 'bar',
-            data: fraudData,
-            options: {
-                legend: { display: false },
-                title: {
-                    display: true,
-                    text: 'Fraud vs Total Transactions'
-                },
-                responsive: false
+  $(document).ready(function(){
+    var modal = document.getElementById("welcomeModal");
+    window.onload = function() {
+    modal.style.display = "block";
+    // Call fetch_news() function and display output in the modal
+    fetchNews();
+  };
+  async function fetchNews() {
+            try {
+                const response = await fetch('/get_news'); // Assuming your Python server is running on the same domain
+                const data = await response.json();
+                displayNews(data);
+            } catch (error) {
+                console.error('Error fetching news:', error);
             }
-        });
-
-        // Donut Chart: Phishing vs Safe Emails
-        const phishingCtx = document.getElementById('phishingDonutChart').getContext('2d');
-        const phishingDonutChart = new Chart(phishingCtx, {
-            type: 'doughnut',
-            data: phishingData,
-            options: {
-                title: {
-                    display: true,
-                    text: 'Phishing vs Safe Emails'
-                },
-                responsive: false
-            }
-        });
-
-   
-    var bgColors = Array.from({ length: 7 }, () => generateTLRandomColor());
-
-    // Dummy data for the bar chart
-    var data = {
-      labels: ['Google News', 'Dark Web', 'Government IDs', 'Facial Data', 'Mailboxes', 'Credit Card History', 'UPI Transaction History'],
-      datasets: [{
-        label: '# of Logs',
-        data: [150, 200, 120, 150, 200, 150, 350],
-        backgroundColor: bgColors,
-        hoverBackgroundColor: genOP(bgColors),
-        borderWidth: 0 
-      }]
-    };
-
-    // Get the canvas element
-    var ctx = document.getElementById('dataSourceChart').getContext('2d');
-
-    // Create the bar chart
-    var dataSourceChart = new Chart(ctx, {
-      type: 'bar',
-      data: data,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
         }
-        // Add any additional options here
-      }
-    });
+
+        function displayNews(news) {
+            const newsContainer = document.getElementById('newsContainer');
+            news.forEach(item => {
+                const newsItem = document.createElement('div');
+                newsItem.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <p>Date: ${item.date_posted}</p>
+                    <p><a href="${item.url.slice(7).split('&sa=')[0]}" target="_blank">Read more</a></p>
+                    <hr>
+                `;
+                newsContainer.appendChild(newsItem);
+            });
+        }
 
 
-const wordCloudData = [
-    { text: 'Cybersecurity', size: 20 },
-    { text: 'Financial', size: 16 },
-    { text: 'Fraud', size: 24 },
-    { text: 'Data Breach', size: 18 },
-    { text: 'Encryption', size: 22 },
-    { text: 'Phishing', size: 15 },
-    { text: 'Malware', size: 21 },
-    { text: 'Incident Response', size: 19 },
-    { text: 'Blockchain', size: 17 },
-    { text: 'Ransomware', size: 23 },
-    { text: 'Regulation', size: 16 },
-    { text: 'Insider Threat', size: 20 },
-    { text: 'Vulnerability', size: 18 },
-    { text: 'Compliance', size: 22 },
-    { text: 'Authentication', size: 19 },
-    { text: 'Network Security', size: 21 },
-    { text: 'Audit', size: 15 },
-    { text: 'Cyber Threat', size: 23 },
-    { text: 'Financial Sector', size: 17 },
-    { text: 'Cloud Security', size: 20 },
-    { text: 'Payment Systems', size: 18 },
-    { text: 'Security Awareness', size: 21 },
-    { text: 'Cyber Insurance', size: 19 },
-    { text: 'Risk Management', size: 22 },
-    { text: 'Digital Currency', size: 16 },
-    { text: 'Endpoint Security', size: 24 },
-    { text: 'Cyber Resilience', size: 17 },
-    { text: 'Third-Party Risk', size: 20 },
-    { text: 'Financial Cybercrime', size: 18 },
-    { text: 'IoT Security', size: 21 },
-    { text: 'Regulatory Compliance', size: 19 },
-    { text: 'Mobile Security', size: 22 },
-    { text: 'Secure Transactions', size: 17 },
-    { text: 'Threat Intelligence', size: 20 },
-    { text: 'Financial Services', size: 18 },
-    { text: 'Biometric Authentication', size: 21 },
-    { text: 'Cyber Investigations', size: 19 },
-    { text: 'AI in Cybersecurity', size: 22 },
-    { text: 'Cybersecurity Framework', size: 17 },
-    { text: 'Digital Identity', size: 20 },
-    { text: 'Financial Regulation', size: 18 },
-    { text: 'Secure Banking', size: 21 },
-    { text: 'IT Governance', size: 19 },
-    { text: 'Cybersecurity Policy', size: 22 },
-    { text: 'Insurtech Security', size: 17 },
-    { text: 'Threat Vector', size: 16 },
-    { text: 'Smart Contracts', size: 20 },
-    { text: 'Deception Technology', size: 18 },
-    { text: 'Mobile Payments', size: 21 },
-    { text: 'Cybersecurity Awareness', size: 19 },
-    { text: 'Regulatory Challenges', size: 22 },
-    { text: 'Supply Chain Security', size: 17 },
-    { text: 'Digital Wallet', size: 23 },
-    { text: 'Financial APIs', size: 15 },
-    { text: 'Cybersecurity Governance', size: 24 },
-    { text: 'Dark Web', size: 17 },
-    { text: 'Zero Trust Security', size: 20 },
-    { text: 'Cryptojacking', size: 18 },
-    { text: 'Tokenization', size: 21 },
-    { text: 'Incident Handling', size: 19 },
-    { text: 'Regulatory Compliance', size: 22 },
-    { text: 'Fintech Security', size: 15 },
-    { text: 'Digital Assets', size: 23 },
-    { text: 'Cloud Compliance', size: 17 },
-    { text: 'Security Patching', size: 20 },
-    { text: 'Behavior Analytics', size: 18 },
-    { text: 'Financial Fraud Detection', size: 21 },
-    { text: 'Cybersecurity Maturity', size: 19 },
-    { text: 'API Security', size: 22 },
-    { text: 'Secure Transactions', size: 17 },
-    { text: 'Blockchain Auditing', size: 20 },
-    { text: 'Security Orchestration', size: 18 },
-    { text: 'Insider Threat Detection', size: 21 },
-    { text: 'Mobile Banking Security', size: 19 },
-    { text: 'Regulatory Standards', size: 22 },
-    { text: 'Quantum Cryptography', size: 17 },
-    { text: 'Cybersecurity Resilience', size: 20 },
-    { text: 'Financial Cybersecurity', size: 18 },
-    { text: 'Data Loss Prevention', size: 21 },
-    { text: 'ATM Security', size: 19 },
-    { text: 'Cybersecurity Training', size: 22 },
-    { text: 'Insider Threat Prevention', size: 17 },
-    { text: 'Open Banking Security', size: 20 },
-    { text: 'Financial Threat Intelligence', size: 18 },
-    { text: 'Hardware Security', size: 21 },
-    { text: 'Incident Response Plan', size: 19 },
-    { text: 'Risk-Based Authentication', size: 22 },
-    { text: 'Economic Espionage', size: 17 },
-    { text: 'Biometric Security', size: 20 },
-    { text: 'Secure Financial Transactions', size: 18 },
-    { text: 'Authentication Protocols', size: 21 },
-    { text: 'Cybersecurity Auditing', size: 19 },
-    { text: 'Financial Regulatory Compliance', size: 22 },
-    { text: 'Security Token Offerings (STOs)', size: 17 }
-];
+  
 
-// Set up dimensions for the word cloud container
-const width = 500;
-const height = 300;
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
 
-// Create the word cloud using d3-cloud
-const svg = d3.select('#wordcloud')
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
-    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
 
-// Use d3.layout.cloud to generate the word cloud
-const layout = d3.layout.cloud()
-    .size([width, height])
-    .words(wordCloudData)
-    .padding(5)
-    .rotate(function() { return ~~(Math.random() * 2) * 90; }) // Rotate randomly
-    .font('Impact')
-    .fontSize(function(d) { return d.size; })
-    .on('end', draw);
 
-// Start the layout
-layout.start();
+    function generateTLRandomColor() {
+      // Define the color palette in RGB
+      const palette = [
+        { red: 23, green: 193, blue: 190 },
+        { red: 99, green: 206, blue: 198 },
+        { red: 175, green: 220, blue: 207 },
+        { red: 251, green: 233, blue: 215 }
+      ];
 
-// Draw the words on the SVG
-function draw(words) {
-    svg.selectAll('text')
-        .data(words)
-        .enter().append('text')
-        .style('font-size', function(d) { return d.size + 'px'; })
-        .style('font-family', 'Impact')
-        .style('fill',function(d) { return  generateTLRandomColor(); })
-        .attr('text-anchor', 'middle')
-        .attr('transform', function(d) {
-            return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
-        })
-        .text(function(d) { return d.text; });
-}
+      // Choose a random color from the palette
+      const randomColor = palette[Math.floor(Math.random() * palette.length)];
+
+      // Generate random shades for each channel
+      const shadeRed = Math.floor(Math.random() * 75);
+      const shadeGreen = Math.floor(Math.random() * 75);
+      const shadeBlue = Math.floor(Math.random() * 75);
+
+      // Generate a random value for the alpha channel between 0.1 and 1
+      const alpha = 0.6;
+
+      // Construct the RGBA color string with random shades
+      const colorString = `rgba(${randomColor.red + shadeRed},${randomColor.green + shadeGreen},${randomColor.blue + shadeBlue},${alpha})`;
+
+      return colorString;
+    }
+
+    // Function to generate an opaque version of a given color
+    function genOP(colorList) {
+      return;
+    }
+    
+    var bgColors = Array.from({ length: 2 }, () => generateTLRandomColor());
+
+            // Sample data for the charts
+            const fraudData = {
+                labels: ['Total Transactions', 'Fraudulent Transactions'],
+                datasets: [{
+                    data: [500, 150], // replace with actual data
+                    backgroundColor: bgColors
+                }]
+            };
+
+    var bgColors = Array.from({ length: 2 }, () => generateTLRandomColor());
+
+            const phishingData = {
+                labels: ['Phishing Emails', 'Safe Emails'],
+                datasets: [{
+                    data: [60, 140], // replace with actual data
+                    backgroundColor: bgColors
+                }]
+            };
+
+            // Bar Chart: # of Fraud vs Total # of Transactions
+            const fraudCtx = document.getElementById('fraudBarChart').getContext('2d');
+            const fraudBarChart = new Chart(fraudCtx, {
+                type: 'bar',
+                data: fraudData,
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Fraud vs Total Transactions'
+                    },
+                    responsive: false
+                }
+            });
+
+            // Donut Chart: Phishing vs Safe Emails
+            const phishingCtx = document.getElementById('phishingDonutChart').getContext('2d');
+            const phishingDonutChart = new Chart(phishingCtx, {
+                type: 'doughnut',
+                data: phishingData,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Phishing vs Safe Emails'
+                    },
+                    responsive: false
+                }
+            });
+
+      
+        var bgColors = Array.from({ length: 7 }, () => generateTLRandomColor());
+
+        // Dummy data for the bar chart
+        var data = {
+          labels: ['Google News', 'Dark Web', 'Government IDs', 'Facial Data', 'Mailboxes', 'Credit Card History', 'UPI Transaction History'],
+          datasets: [{
+            label: '# of Logs',
+            data: [150, 200, 120, 150, 200, 150, 350],
+            backgroundColor: bgColors,
+            hoverBackgroundColor: genOP(bgColors),
+            borderWidth: 0 
+          }]
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('dataSourceChart').getContext('2d');
+
+        // Create the bar chart
+        var dataSourceChart = new Chart(ctx, {
+          type: 'bar',
+          data: data,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+            // Add any additional options here
+          }
+        });
+
+
+    const wordCloudData = [
+        { text: 'Cybersecurity', size: 20 },
+        { text: 'Financial', size: 16 },
+        { text: 'Fraud', size: 24 },
+        { text: 'Data Breach', size: 18 },
+        { text: 'Encryption', size: 22 },
+        { text: 'Phishing', size: 15 },
+        { text: 'Malware', size: 21 },
+        { text: 'Incident Response', size: 19 },
+        { text: 'Blockchain', size: 17 },
+        { text: 'Ransomware', size: 23 },
+        { text: 'Regulation', size: 16 },
+        { text: 'Insider Threat', size: 20 },
+        { text: 'Vulnerability', size: 18 },
+        { text: 'Compliance', size: 22 },
+        { text: 'Authentication', size: 19 },
+        { text: 'Network Security', size: 21 },
+        { text: 'Audit', size: 15 },
+        { text: 'Cyber Threat', size: 23 },
+        { text: 'Financial Sector', size: 17 },
+        { text: 'Cloud Security', size: 20 },
+        { text: 'Payment Systems', size: 18 },
+        { text: 'Security Awareness', size: 21 },
+        { text: 'Cyber Insurance', size: 19 },
+        { text: 'Risk Management', size: 22 },
+        { text: 'Digital Currency', size: 16 },
+        { text: 'Endpoint Security', size: 24 },
+        { text: 'Cyber Resilience', size: 17 },
+        { text: 'Third-Party Risk', size: 20 },
+        { text: 'Financial Cybercrime', size: 18 },
+        { text: 'IoT Security', size: 21 },
+        { text: 'Regulatory Compliance', size: 19 },
+        { text: 'Mobile Security', size: 22 },
+        { text: 'Secure Transactions', size: 17 },
+        { text: 'Threat Intelligence', size: 20 },
+        { text: 'Financial Services', size: 18 },
+        { text: 'Biometric Authentication', size: 21 },
+        { text: 'Cyber Investigations', size: 19 },
+        { text: 'AI in Cybersecurity', size: 22 },
+        { text: 'Cybersecurity Framework', size: 17 },
+        { text: 'Digital Identity', size: 20 },
+        { text: 'Financial Regulation', size: 18 },
+        { text: 'Secure Banking', size: 21 },
+        { text: 'IT Governance', size: 19 },
+        { text: 'Cybersecurity Policy', size: 22 },
+        { text: 'Insurtech Security', size: 17 },
+        { text: 'Threat Vector', size: 16 },
+        { text: 'Smart Contracts', size: 20 },
+        { text: 'Deception Technology', size: 18 },
+        { text: 'Mobile Payments', size: 21 },
+        { text: 'Cybersecurity Awareness', size: 19 },
+        { text: 'Regulatory Challenges', size: 22 },
+        { text: 'Supply Chain Security', size: 17 },
+        { text: 'Digital Wallet', size: 23 },
+        { text: 'Financial APIs', size: 15 },
+        { text: 'Cybersecurity Governance', size: 24 },
+        { text: 'Dark Web', size: 17 },
+        { text: 'Zero Trust Security', size: 20 },
+        { text: 'Cryptojacking', size: 18 },
+        { text: 'Tokenization', size: 21 },
+        { text: 'Incident Handling', size: 19 },
+        { text: 'Regulatory Compliance', size: 22 },
+        { text: 'Fintech Security', size: 15 },
+        { text: 'Digital Assets', size: 23 },
+        { text: 'Cloud Compliance', size: 17 },
+        { text: 'Security Patching', size: 20 },
+        { text: 'Behavior Analytics', size: 18 },
+        { text: 'Financial Fraud Detection', size: 21 },
+        { text: 'Cybersecurity Maturity', size: 19 },
+        { text: 'API Security', size: 22 },
+        { text: 'Secure Transactions', size: 17 },
+        { text: 'Blockchain Auditing', size: 20 },
+        { text: 'Security Orchestration', size: 18 },
+        { text: 'Insider Threat Detection', size: 21 },
+        { text: 'Mobile Banking Security', size: 19 },
+        { text: 'Regulatory Standards', size: 22 },
+        { text: 'Quantum Cryptography', size: 17 },
+        { text: 'Cybersecurity Resilience', size: 20 },
+        { text: 'Financial Cybersecurity', size: 18 },
+        { text: 'Data Loss Prevention', size: 21 },
+        { text: 'ATM Security', size: 19 },
+        { text: 'Cybersecurity Training', size: 22 },
+        { text: 'Insider Threat Prevention', size: 17 },
+        { text: 'Open Banking Security', size: 20 },
+        { text: 'Financial Threat Intelligence', size: 18 },
+        { text: 'Hardware Security', size: 21 },
+        { text: 'Incident Response Plan', size: 19 },
+        { text: 'Risk-Based Authentication', size: 22 },
+        { text: 'Economic Espionage', size: 17 },
+        { text: 'Biometric Security', size: 20 },
+        { text: 'Secure Financial Transactions', size: 18 },
+        { text: 'Authentication Protocols', size: 21 },
+        { text: 'Cybersecurity Auditing', size: 19 },
+        { text: 'Financial Regulatory Compliance', size: 22 },
+        { text: 'Security Token Offerings (STOs)', size: 17 }
+    ];
+
+    // Set up dimensions for the word cloud container
+    const width = 500;
+    const height = 300;
+
+    // Create the word cloud using d3-cloud
+    const svg = d3.select('#wordcloud')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+
+    // Use d3.layout.cloud to generate the word cloud
+    const layout = d3.layout.cloud()
+        .size([width, height])
+        .words(wordCloudData)
+        .padding(5)
+        .rotate(function() { return ~~(Math.random() * 2) * 90; }) // Rotate randomly
+        .font('Impact')
+        .fontSize(function(d) { return d.size; })
+        .on('end', draw);
+
+    // Start the layout
+    layout.start();
+
+    // Draw the words on the SVG
+    function draw(words) {
+        svg.selectAll('text')
+            .data(words)
+            .enter().append('text')
+            .style('font-size', function(d) { return d.size + 'px'; })
+            .style('font-family', 'Impact')
+            .style('fill',function(d) { return  generateTLRandomColor(); })
+            .attr('text-anchor', 'middle')
+            .attr('transform', function(d) {
+                return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
+            })
+            .text(function(d) { return d.text; });
+    }
+  });
 
   </script>
 {% endblock %}
